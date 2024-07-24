@@ -41,13 +41,14 @@
 &#8194;&#8194;&#8195;- 其中，ISO-11898 是通信速度为 5 kbps - 1 Mbps 的CAN高速通信标准，规范中同时定义了数据链路层和高速物理层；  
 &#8194;&#8194;&#8195;- ISO-11519 是通信速度为 125 kbps 以下的CAN低速通信标准，即容错CAN（LSFT-CAN）；提供从 5 Kbit/s 到 125 Kbits/s 的波特率；其允许在CAN总线连线失败时总线通信得以继续进行。  
 &#8194;&#8195;2003年，ISO将原先的 ISO-11898 协议拆分为 ISO 11898-1 和 ISO 11898-2 两部分；后续又发布了其他几个部分：  
-&#8194;&#8194;&#8195;- ~~ISO 11898-1: 2003~~ & ~~ISO 11898-1: 2015~~ & ISO 11898-1: 2024 - PART 1: Data link layer and physical signalling;  
-&#8194;&#8194;&#8195;- ~~ISO 11898-2: 2003~~ & ~~ISO 11898-2: 2016~~ & ISO 11898-2: 2024 - PART 2: High-speed medium access unit;  
-&#8194;&#8194;&#8195;- ISO 11898-3: 2006 - PART 3: Low-speed, fault-tolerant, medium-dependent interface;  
-&#8194;&#8194;&#8195;- ISO 11898-4: 2004 - PART 4: Time-triggered communication;  
+&#8194;&#8194;&#8195;- ~~ISO 11898-1: 2003~~ & ~~ISO 11898-1: 2015~~ & ***ISO 11898-1: 2024 - PART 1: Data link layer and physical signalling;***   
+&#8194;&#8194;&#8195;- ~~ISO 11898-2: 2003~~ & ~~ISO 11898-2: 2016~~ & ***ISO 11898-2: 2024 - PART 2: High-speed medium access unit;***  
+&#8194;&#8194;&#8195;- ***ISO 11898-3: 2006 - PART 3: Low-speed, fault-tolerant, medium-dependent interface;***  
+&#8194;&#8194;&#8195;- ***ISO 11898-4: 2004 - PART 4: Time-triggered communication;***  
 &#8194;&#8194;&#8195;- ~~ISO 11898-5: 2007~~ - PART 5: High-speed medium access unit with low-power mode;  
 &#8194;&#8194;&#8195;- ~~ISO 11898-6: 2013~~ - PART 6: High-speed medium access unit with selective wake-up functionality;  
-&#8194;&#8195;
+&#8194;&#8195; ISO 11898-3: 2006 可作为 ISO-11519-2: 1994 的上位替代；  
+&#8194;&#8195; ISO 11898-1: 2003 & ISO 11898-5: 2007 & ISO 11898-6: 2013 合并为 ISO 11898-2: 2016；
 
 
 
