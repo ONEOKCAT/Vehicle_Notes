@@ -13,7 +13,7 @@
 &#8194;&#8194;&#8195;- 整车布线的复杂程度提升；  
 &#8194;&#8195;此外，基于点对点的拓扑，也不便于进行网络扩展。
 
---PIC--
+![image](https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/CAN-Bus_Networking.png)
 
 ## 3 &#8194;Bus Networking
 
@@ -34,7 +34,7 @@
 
 ## 5 &#8194;CAN-Bus 结构概述
 
---PIC--
+![image](https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/CAN-Bus_CAN%20Structure.png)
 
 &#8194;&#8195;
 
@@ -56,7 +56,7 @@
 
 ## 7 &#8194;CAN-Bus 框架概述
 
---PIC--
+![image](https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/CAN-Bus_the%20relationship%20between%20the%20OSI%20layers%20and%20the%20CAN%20sub-layers.png)
 
 * ISO 11898-1 对应 CAN-Bus 结构中 CAN (Protocol) Controller 部分;
 * ISO 11898-2 对应 CAN-Bus 结构中 CAN Transceiver 部分;
