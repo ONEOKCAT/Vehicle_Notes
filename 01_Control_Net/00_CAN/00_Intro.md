@@ -46,7 +46,8 @@
 &#8194;&#8194;&#8195;- ISO 11898-3: 2006 - PART 3: Low-speed, fault-tolerant, medium-dependent interface;  
 &#8194;&#8194;&#8195;- ISO 11898-4: 2004 - PART 4: Time-triggered communication;  
 &#8194;&#8194;&#8195;- ~~ISO 11898-5: 2007~~ - PART 5: High-speed medium access unit with low-power mode;  
-&#8194;&#8194;&#8195;- ~~ISO 11898-6: 2013~~ - PART 6: High-speed medium access unit with selective wake-up functionality;
+&#8194;&#8194;&#8195;- ~~ISO 11898-6: 2013~~ - PART 6: High-speed medium access unit with selective wake-up functionality;  
+&#8194;&#8195;
 
 
 
