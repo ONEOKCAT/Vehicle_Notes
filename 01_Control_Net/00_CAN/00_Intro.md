@@ -55,9 +55,6 @@
 
 &#8194;&#8195;CAN-Bus本质是一种异步串行通讯低层网络。对照OSI模型，CAN标准规范仅包含物理层和数据链路层部分。但构建在CAN总线之上的应用层协议有多种， 譬如针对汽车控制领域和工业控制领域的 CANopen 协议、针对工业控制领域的 DeviceNet 协议、针对公交车和卡车控制领域的 SAE J1939 协议、针对轻型电动汽车领域的 EnergyBus 协议等。
 
-                        
-原文链接：https://blog.csdn.net/gsjthxy/article/details/136043301
-
 ## 7 &#8194;CAN-Bus 框架概述
 
 ![image](https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/CAN-Bus_the%20relationship%20between%20the%20OSI%20layers%20and%20the%20CAN%20sub-layers.png)
