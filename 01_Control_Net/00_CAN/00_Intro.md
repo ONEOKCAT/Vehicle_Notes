@@ -54,11 +54,23 @@
 * ISO 11898-3: 2006 可作为 ISO-11519-2: 1994 的上位替代；  
 * ISO 11898-1: 2003 & ISO 11898-5: 2007 & ISO 11898-6: 2013 合并为 ISO 11898-2: 2016；
 
-### 1.7 &#8194;CAN-Bus 协议框架
+### 1.7 &#8194;CAN-Bus 框架概述
 
 --PIC--
 
 * ISO 11898-1 对应 CAN-Bus 结构中 CAN (Protocol) Controller 部分;
 * ISO 11898-2 对应 CAN-Bus 结构中 CAN Transceiver 部分;
 
-&#8194;&#8195;基本释义：
+&#8194;&#8195;基本释义：  
+&#8194;&#8194;&#8195;- ***LLC***: Logic Link Control  
+&#8194;&#8194;&#8195;- ***MAC***: Medium Access Control   
+&#8194;&#8194;&#8195;- ***PCS***: Physical Coding Sub-layer   
+&#8194;&#8194;&#8195;- ***PWM***: Physical medium attachment  
+&#8194;&#8194;&#8195;- ***AUI***: Attachment unit interface  
+&#8194;&#8194;&#8195;- ***PMA***: Physical medium attachment  
+&#8194;&#8194;&#8195;- ***MDI***: physical medium dependent  
+&#8194;&#8194;&#8195;- ***PMD***: Pulse-width Modulation  
+
+
+
+
