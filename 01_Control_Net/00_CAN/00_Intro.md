@@ -59,10 +59,10 @@
 
 ![image](https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/CAN-Bus_the%20relationship%20between%20the%20OSI%20layers%20and%20the%20CAN%20sub-layers.png)
 
-* ISO 11898-1 对应 CAN-Bus 结构中 CAN (Protocol) Controller 部分;
-* ISO 11898-2 对应 CAN-Bus 结构中 CAN Transceiver 部分;
+>* ISO 11898-1 对应 CAN-Bus 结构中 CAN (Protocol) Controller 部分;
+>* ISO 11898-2 对应 CAN-Bus 结构中 CAN Transceiver 部分;
 
-&#8194;&#8195;基本释义：  
+>&#8194;&#8195;基本释义：  
 &#8194;&#8194;&#8195;- ***LLC***: Logic Link Control  
 &#8194;&#8194;&#8195;- ***MAC***: Medium Access Control   
 &#8194;&#8194;&#8195;- ***PCS***: Physical Coding Sub-layer   
