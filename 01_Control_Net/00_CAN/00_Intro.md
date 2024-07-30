@@ -35,11 +35,16 @@
 
 ![image](https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/CAN-Bus_CAN%20Structure.png)
 
-&#8194;&#8195;
+&#8194;&#8195;- **Microcontroller**: 主导与其他节点的通信，即应用层的交互；  
+&#8194;&#8195;- **CAN 接口**: ECU 需要 CAN 接口才能参与 CAN 通信；CAN 接口由 CAN 控制器和 CAN 收发器组成；CAN 控制器执行 CAN 协议规定的通信功能 （ISO-11898 中也称其为 CAN-Protocol-Controller），从而大大减轻了 Microcontroller 的负担；  
+&#8194;&#8195;- **发送过程**: Mircocontroller 将应用数据传递给 CAN-Controller；CAN-Controller 会完成报文的封装，接着将数据以二进制码流的方式发送给 CAN-Transceiver；CAN-Transceiver 负责二进制信息流与物理电平信号间的转换，根据 CAN 标准定义的物理层协议，将 CAN_H （CAN 高信号线） 和 CAN_L （CAN 低信号线） 两根线的电平拉到相应阈值；   
+&#8194;&#8195;- **接收过程**: CAN-Transceiver 检测到总线数据时，会将 CAN_H / CAN_L 上的差分电平解析成适用于数据链路层传输的所谓 “0101...” 的比特流，将其传递给 CAN-Controller；CAN-Controller 对数据进行解封装后，打包传递给 Mircocontroller 进行处理；  
+&#8194;&#8195;此外，使用终端电阻连接通信通道的两末端（模拟传输介质的电特性）可防止在高速CAN网络中发生反射；
+
 
 ## 6 &#8194;CAN-Bus 发展及协议概述
 
-&#8194;&#8195;1983年，Bosch开发了一种新的串行通信系统，即CAN。  
+&#8194;&#8195;1983年，Bosch 开发了一种新的串行通信系统，即 CAN。  
 &#8194;&#8195;从1993年开始，ISO 启动 CAN 技术标准化工作，并颁布了第一版 CAN 国际标准（ISO-11898: 1993 和 ISO-11519-2: 1994）：  
 &#8194;&#8194;&#8195;- 其中，ISO-11898 是通信速度为 5 kbps - 1 Mbps 的高速 CAN 通信标准，规范中同时定义了数据链路层和高速物理层；  
 &#8194;&#8194;&#8195;- ISO-11519 是通信速度为 125 kbps 以下的低速 CAN 通信标准，即容错 CAN（LSFT-CAN）；提供从 5 Kbit/s 到 125 Kbits/s 的波特率；其允许在CAN总线连线失败时总线通信得以继续进行。  
@@ -70,7 +75,9 @@
 &#8194;&#8194;&#8195;- ***AUI***: Attachment unit interface  
 &#8194;&#8194;&#8195;- ***PMA***: Physical medium attachment  
 &#8194;&#8194;&#8195;- ***MDI***: physical medium dependent  
-&#8194;&#8194;&#8195;- ***PMD***: Pulse-width Modulation  
+&#8194;&#8194;&#8195;- ***PMD***: Pulse-width Modulation
+
+&#8194;&#8195;ISO 11898-2 与 ISO 11898-3 规定的标准范围是相同的（如上图所示），前者针对的是高速 CAN 而后者描述的是低速 CAN。
 
 
 
