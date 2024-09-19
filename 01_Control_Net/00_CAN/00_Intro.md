@@ -103,7 +103,7 @@
 
 ## 7 &#8194;CAN-Bus 框架概述
 
-![image](https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/CAN-Bus_the%20relationship%20between%20the%20OSI%20layers%20and%20the%20CAN%20sub-layers.png)
+![image](https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/CAN-Bus_the_relationship_between_the_OSI_layers_and_the_CAN_sub-layers.png)
 
 >* ISO 11898-1 对应 CAN-Bus 结构中 CAN (Protocol) Controller 部分;
 >
@@ -161,7 +161,7 @@
 
 &#8194;&#8195;**推动**：新的应用案例和不断增长的带宽要求使传统的 CAN 和 CAN FD 达到了极限；" Large Bit rate gap between CAN FD and 100BASE-T1 Ethernet. "
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/CAN XL-Bit_Rate_gap_between_CANXL_and_100BASE-T1_Ethernet.png>
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/CANXL-Bit_Rate_gap_between_CANXL_and_100BASE-T1_Ethernet.png>
 
 &#8194;&#8195;**CAN XL 优势一览**：
 
