@@ -155,7 +155,23 @@
 
 &#8194;&#8195;**控制器需求**：为了确保 CAN FD 正常工作，需要新的 CAN FD 控制器。CAN FD 控制器是向下兼容的，并且能够处理 Classical CAN 。CAN 总线上的 ECU 可以逐步替换为支持 CAN FD 的 ECU 。当然，只要有一个具有常规 CAN 控制器的 ECU，就必须使用经典 CAN 。似乎只有总线上的所有 ECU 都升级为 CAN FD 控制器后，才能利用 CAN FD 的优势，这并不绝对，部分 ECU 支持 CAN FD，能够以更高的速度通信，而其他 ECU 进入睡眠状态。
 
+# 9 &#8194;CAN XL 推动因素及概述
 
+&#8194;&#8195;**起源**：2020 年的第 17 届国际 CAN 大会（iCC）上，第三代 CAN 通信技术 CAN XL 启动。
+
+&#8194;&#8195;**推动**：新的应用案例和不断增长的带宽要求使传统的 CAN 和 CAN FD 达到了极限；" Large Bit rate gap between CAN FD and 100BASE-T1 Ethernet. "
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/CAN XL-Bit_Rate_gap_between_CANXL_and_100BASE-T1_Ethernet.png>
+
+&#8194;&#8195;**CAN XL 优势一览**：
+
+&#8194;&#8194;&#8195;**- 更高的比特率**：支持 10 ~ 20 Mbit/s，具体取决于拓扑结构；（CAN SIC XL Transceiver）
+
+&#8194;&#8194;&#8195;**- 更多的有效载荷**：高达 2048 字节的数据字段，意味着可支持使用更高层的协议嵌入，例如IP（Internet协议），甚至可以传输完整的以太网帧；
+
+&#8194;&#8195;&#8195;CAN XL 帧中提供了一个新字段用于指示有效载荷中的数据类型，即通过该字段可以实现在同一总线上运行多个高层协议；例如，可以同时支持基于服务的以太网通信和基于信号的 CAN 通信。
+
+&#8194;&#8195;&#8195;**更安全**：例如，通过两个 CRC 字段来提升可靠性； 
 
 
 
