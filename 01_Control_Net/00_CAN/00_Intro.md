@@ -103,7 +103,7 @@
 
 ## 7 &#8194;CAN-Bus 框架概述
 
-![image](https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/CAN-Bus_the_relationship_between_the_OSI_layers_and_the_CAN_sub-layers.png)
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/CAN-Bus_the_relationship_between_the_OSI_layers_and_the_CAN_sub-layers.png width="720px">
 
 >* ISO 11898-1 对应 CAN-Bus 结构中 CAN (Protocol) Controller 部分;
 >
