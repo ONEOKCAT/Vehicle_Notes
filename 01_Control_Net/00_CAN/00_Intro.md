@@ -157,7 +157,7 @@
 
 # 9 &#8194;CAN XL 推动因素及概述
 
-&#8194;&#8195;**起源**：2020 年的第 17 届国际 CAN 大会（iCC）上，第三代 CAN 通信技术 CAN XL 启动。
+&#8194;&#8195;**起源**：2020 年的第 17 届国际 CAN 大会（iCC）上，第三代 CAN 通信技术 CAN XL (Controller Area Network eXtended Length) 启动。
 
 &#8194;&#8195;**推动**：新的应用案例和不断增长的带宽要求使传统的 CAN 和 CAN FD 达到了极限；" Large Bit rate gap between CAN FD and 100BASE-T1 Ethernet. "
 
