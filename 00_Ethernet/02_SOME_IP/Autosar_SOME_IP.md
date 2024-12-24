@@ -252,11 +252,11 @@
 
 **SOME/IP Header Format**
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Header.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Header.png width="640px">
 
 **SOME/IP Header and E2E header Format**
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-E2E_Header.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-E2E_Header.png width="640px">
 
 #### 2.2.3.1 &#8194;Message ID / 32 Bit
 
@@ -274,21 +274,21 @@
 
 &#8194;&#8195;通常建议，Method ID 最高位为 0 表示 "Method"（包括服务方式中定义的 Method、Field.Getter 以及 Field.Setter），最高位为1设置为 "Event"（包括服务方式中定义的 Event 以及 Field.Notifier）。
 
-&#8194;&#8195;e.g. 请求媒体系统播放下一首音乐，Service ID 表示的就是音乐播放器，Method ID 指明切换至下一首这个操作。
+&#8194;&#8195;e.g. 请求媒体系统播放下一首音乐，Service ID 表示的就是音乐播放器Format，Method ID 指明切换至下一首这个操作。
 
->#8194;&#8195;It is common practise and recommended to split the ID space of the Method ID between Methods and Events/Notifications. Methods would be in the range 0x0000-0x7FFF (first bit of Method-ID is 0 and Events/Notifications would use the range 0x8000-0x8FFF (first bit of the Method-ID is 1).
+>&#8194;&#8195;It is common practise and recommended to split the ID space of the Method ID between Methods and Events/Notifications. Methods would be in the range 0x0000-0x7FFF (first bit of Method-ID is 0 and Events/Notifications would use the range 0x8000-0x8FFF (first bit of the Method-ID is 1).
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Header_Message_ID.png width="400px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Header_Message_ID.png width="480px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Special_Service_ID.png width="400px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Special_Service_ID.png width="600px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Special_Method_ID.png width="400px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Special_Method_ID.png width="600px">
 
 &#8194;&#8195;Magic Cookie 是一个只有报头无负载的 SOME/IP 报文，用于确认 TCP 是否仍在连接中
 
 &#8194;&#8195;Client 发给 Server 与 Server 发给 Client 的 Magic Cookie 是各种独立的，即不需要接收到对方发送的 Magic Cookie 才能发送己端的。
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Magic_Cookie_Message.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Magic_Cookie_Message.png width="640px">
 
 #### 2.2.3.2 &#8194;Length / 32 Bit
 
@@ -376,7 +376,7 @@
 
 >&#8194;&#8195;The 3rd highest bit of the Message Type (=0x20) shall be called TP-Flag and shall be set to 1 to signal that the current SOME/IP message is a segment.
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Header_Message_Type.png width="400px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Header_Message_Type.png width="600px">
 
 #### 2.2.3.7 &#8194;Return Code / 8 Bit
 
@@ -504,7 +504,7 @@
 
 >&#8194;&#8194;&#8195;Instead of transferring application strings as SOME/IP strings with BOM and "\0" termination, strings can also be transported as plain dynamic length arrays without BOM and "\0" termination. Please note that this requires the full string handling (e.g. endianness conversion) to be done in the applications.
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-String_Fixed_Length.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-String_Fixed_Length.png width="640px">
 
 &#8194;&#8195;**Strings (dynamic length)**
 
@@ -512,9 +512,9 @@
 
 &#8194;&#8194;&#8195;- Length Field 字段字节数是可配置的 —— 8 / 16 32 Bits，默认 32 Bits。
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-String_Dynamic_Length.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-String_Dynamic_Length.png width="640px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-String_Compare.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-String_Compare.png width="640px">
 
 #### 2.2.4.5 &#8194;Arrays
 
@@ -522,7 +522,7 @@
 
 &#8194;&#8195;同样分为**固定长度**和**可变长度**数组，同时，需要考虑数组维度。
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Array_Compare.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Array_Compare.png width="640px">
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-One-dimensional_array_Fixed_Length.png width="600px">
 
@@ -550,7 +550,7 @@
 >
 >&#8194;&#8195;**Which data type will be transmitted in the payload can only be decided during execution.** In this case, however, it is necessary to not only send the data itself but add an information about the applicable data type as a form of "meta-data" to the transmission.
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Default_Serialization_of_Unions.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Default_Serialization_of_Unions.png width="640px">
 
 &#8194;&#8195;一个 Union 应由三部分构成：Length Field，Type Filed，Payload。
 
@@ -572,9 +572,9 @@
 
 >&#8194;&#8195;In the following example a length of the length field is specified as 32 Bits. The union shall support a uint8 and a uint16 as data. Both are padded to the 32 bit boundary (length = 4 Bytes).
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Union_unit8.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Union_unit8.png width="640px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Union_unit16.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Union_unit16.png width="640px">
 
 ## 2.3 &#8194;Specification of SOME/IP Protocol
 
