@@ -184,11 +184,11 @@
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Event_communication.png width="360px">
 
-#8194;&#8195;事件组至少包含一个事件。
+&#8194;&#8195;事件组至少包含一个事件。
 
->#8194;&#8195;Eventgroup is a logical grouping of events and notification events of fields inside a service in order to allow subscription.
+>&#8194;&#8195;Eventgroup is a logical grouping of events and notification events of fields inside a service in order to allow subscription.
 >
->#8194;&#8195;Events as well as field notifiers shall be mapped to at least one SOME/IP Eventgroup.
+>&#8194;&#8195;Events as well as field notifiers shall be mapped to at least one SOME/IP Eventgroup.
 
 &#8194;&#8195;**Method**，涉及 Request/Response 和 Fire&Forget 机制
 
@@ -607,6 +607,21 @@
 &#8194;&#8194;&#8195;- 当 Server 在 Client 尚未认识到 TCP 不再需要之前关闭 TCP 连接时，Client 将尝试重新建立 TCP 连接。
 
 &#8194;&#8194;&#8195;- Allowing resync to TCP stream using Magic Cookies.  (see in # [2.2.3.1](#2231-message-id--32-bit))
+
+>&#8194;&#8195;**Multiple Service-Instances**
+>
+>&#8194;&#8194;&#8195;- 
+>
+>&#8194;&#8194;&#8195;- 
+>
+>&#8194;&#8194;&#8195;- 
+>
+>&#8194;&#8194;&#8195;- 
+>
+>&#8194;&#8194;&#8195;- 
+
+
+&#8194;&#8194;&#8195;- 
 
 ### 2.3.2 &#8194;Error Handling
 
