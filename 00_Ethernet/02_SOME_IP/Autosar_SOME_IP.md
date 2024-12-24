@@ -108,9 +108,9 @@
 
 &#8194;&#8194;&#8195;注：由于 SOME/IP 本身也是一种面向服务的协议，所以一般认为 SOME/IP 只不过是一种实现 SOA 可行的协议选择；即，可以通过 SOME/IP 用来实现 SOA，但 SOA 的实现却不一定非得用 SOME/IP。
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-SOA_Structure1.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-SOA_Structure1.png width="540px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-SOA_Structure2.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-SOA_Structure2.png width="540px">
 
 ### 1.3.3 &#8194; 术语
 
@@ -128,7 +128,7 @@
     
 &#8194;&#8194;&#8195;- 从软件开发角度，接口定义就是对如何请求信息，以及如何响应信息的结构规定。
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Autosar_Structure.png width="480px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Autosar_Structure.png width="450px">
 
 # 2 &#8194;SOME/IP Protocol Specification
 
@@ -182,7 +182,7 @@
 
 &#8194;&#8195;**Events**，采用 Notification 机制
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Event_communication.png width="400px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Event_communication.png width="360px">
 
 #8194;&#8195;事件组至少包含一个事件。
 
@@ -192,7 +192,7 @@
 
 &#8194;&#8195;**Method**，涉及 Request/Response 和 Fire&Forget 机制
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Method_communication.png width="400px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Method_communication.png width="360px">
 
 &#8194;&#8195;**Field**中，Setter 和 Getter 对应是所谓**配置和获取服务**，使用 Request/Response 机制，而 Notifier 则采用了 Notification机制
 
@@ -278,11 +278,11 @@
 
 >&#8194;&#8195;It is common practise and recommended to split the ID space of the Method ID between Methods and Events/Notifications. Methods would be in the range 0x0000-0x7FFF (first bit of Method-ID is 0 and Events/Notifications would use the range 0x8000-0x8FFF (first bit of the Method-ID is 1).
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Header_Message_ID.png width="480px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Header_Message_ID.png width="400px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Special_Service_ID.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Special_Service_ID.png width="540px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Special_Method_ID.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Special_Method_ID.png width="540px">
 
 &#8194;&#8195;Magic Cookie 是一个只有报头无负载的 SOME/IP 报文，用于确认 TCP 是否仍在连接中
 
@@ -476,7 +476,7 @@
 
 #### 2.2.4.4 &#8194;Strings
 
-&#8194;&#8195包含**固定长度**和**可变长度**字符串。
+&#8194;&#8195;包含**固定长度**和**可变长度**字符串。
 
 &#8194;&#8195;支持不同的编码方式 —— UTF-8 / UTF-16(BE) / UTF-16(LE) （其中，BE 表示大端，LE 表示小端）。
 
@@ -586,27 +586,27 @@
 >
 >&#8194;&#8195;One Service-Instance can use the following setup for its communication of all the methods, events, and notifications:
 >
->&#8194;#8194;&#8195;- up to one TCP connection
+>&#8194;&#8194;&#8195;- up to one TCP connection
 >
->&#8194;#8194;&#8195;- up to one UDP unicast connection
+>&#8194;&#8194;&#8195;- up to one UDP unicast connection
 >
->&#8194;#8194;&#8195;- up to one UDP multicast connection
+>&#8194;&#8194;&#8195;- up to one UDP multicast connection
 
 &#8194;&#8195;SOME/IP 支持 TCP / UDP 传输。
 
 &#8194;&#8195;**TCP Binding 部分规则如下：**
 
-&#8194;#8194;&#8195;- 当 TCP 连接丢失时，未完成的请求应作为超时处理。
+&#8194;&#8194;&#8195;- 当 TCP 连接丢失时，未完成的请求应作为超时处理。
 
-&#8194;#8194;&#8195;- Clinet 应在需要传输首个服务调用或尝试接收第一个 Notification 时打开 TCP 连接。
+&#8194;&#8194;&#8195;- Clinet 应在需要传输首个服务调用或尝试接收第一个 Notification 时打开 TCP 连接。
 
-&#8194;#8194;&#8195;- Client 负责在连接失败时重新建立 TCP 连接，且应在不再需要 TCP 连接时关闭 TCP 连接；当所有使用 TCP 连接的服务不再可用（停止或超时）时，客户端应关闭 TCP 连接。
+&#8194;&#8194;&#8195;- Client 负责在连接失败时重新建立 TCP 连接，且应在不再需要 TCP 连接时关闭 TCP 连接；当所有使用 TCP 连接的服务不再可用（停止或超时）时，客户端应关闭 TCP 连接。
 
-&#8194;#8194;&#8195;- Server 在停止所有服务时不应关闭 TCP 连接，给 Clinet 足够的时间来处理控制数据以自行关闭 TCP 连接。
+&#8194;&#8194;&#8195;- Server 在停止所有服务时不应关闭 TCP 连接，给 Clinet 足够的时间来处理控制数据以自行关闭 TCP 连接。
 
-&#8194;#8194;&#8195;- 当 Server 在 Client 尚未认识到 TCP 不再需要之前关闭 TCP 连接时，Client 将尝试重新建立 TCP 连接。
+&#8194;&#8194;&#8195;- 当 Server 在 Client 尚未认识到 TCP 不再需要之前关闭 TCP 连接时，Client 将尝试重新建立 TCP 连接。
 
-&#8194;#8194;&#8195;- Allowing resync to TCP stream using Magic Cookies.  (see in # [2.2.3.1](#2231-message-id--32-bit))
+&#8194;&#8194;&#8195;- Allowing resync to TCP stream using Magic Cookies.  (see in # [2.2.3.1](#2231-message-id--32-bit))
 
 ### 2.3.2 &#8194;Error Handling
 
