@@ -280,9 +280,9 @@
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Header_Message_ID.png width="400px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Special_Service_ID.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Special_Service_ID.png width="480px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Special_Method_ID.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Special_Method_ID.png width="480px">
 
 &#8194;&#8195;Magic Cookie 是一个只有报头无负载的 SOME/IP 报文，用于确认 TCP 是否仍在连接中
 
