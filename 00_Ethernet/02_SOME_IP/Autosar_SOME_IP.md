@@ -610,21 +610,23 @@
 
 >&#8194;&#8195;**Multiple Service-Instances**
 >
->&#8194;&#8194;&#8195;- 
+>&#8194;&#8194;&#8195;- Service-Instances of the same Service are identified through different Instance IDs. It shall be supported that multiple Service-Instances reside on different ECUs as well as multiple Service-Instances of one or more Services reside on one single ECU.
 >
->&#8194;&#8194;&#8195;- 
+>&#8194;&#8194;&#8195;- While several Service-Instances of different Services shall be able to share the same port number of the transport layer protocol used, multiple Service-Instances of the same Service on one single ECU shall use different ports per Service-Instance.
 >
->&#8194;&#8194;&#8195;- 
+>&#8194;&#8194;&#8195;- **Rationale: While Instance IDs are used for Service Discovery, they are not contained in the SOME/IP header.**
 >
->&#8194;&#8194;&#8195;- 
+>&#8194;&#8194;&#8195;- A Service Instance can be identified through the combination of the Service ID combined with the socket (i.e. IP address, transport protocol (UDP/TCP), and port number).
 >
->&#8194;&#8194;&#8195;- 
+>&#8194;&#8194;&#8195;- It is recommended that instances use the same port number for UDP and TCP. If a service instance uses UDP port x, only this instance of the service and not another instance of the same service should use exactly TCP port x for its services.
+
+&#8194;&#8195;**Transporting large SOME/IP messages of UDP (SOME/IP-TP)**, see in # [3. SOME/IP SD Protocol Specification](3-SOME--IP-SD-Protocol-Specification)
 
 ### 2.3.2 &#8194;Error Handling
 
+# 3 &#8194;SOME/IP SD Protocol Specification
 
-
-
+# 4 &#8194;SOME/IP TP Protocol Specification
 
 
 
