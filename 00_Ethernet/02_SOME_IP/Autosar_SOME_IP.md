@@ -580,6 +580,8 @@
 
 ### 2.3.1 &#8194;Transport Protocol Bindings
 
+&#8194;&#8195;**SOME/IP 支持 TCP / UDP 传输。**
+
 >&#8194;&#8195;All Transport Protocol Bindings shall support transporting more than one SOME/IP message in a Transport Layer PDU (i.e. UDP packet or TCP segment).
 >
 >&#8194;&#8195;Each SOME/IP payload shall have its own SOME/IP header.
@@ -591,8 +593,6 @@
 >&#8194;&#8194;&#8195;- up to one UDP unicast connection
 >
 >&#8194;&#8194;&#8195;- up to one UDP multicast connection
-
-&#8194;&#8195;SOME/IP 支持 TCP / UDP 传输。
 
 &#8194;&#8195;**TCP Binding 部分规则如下：**
 
@@ -608,19 +608,27 @@
 
 &#8194;&#8194;&#8195;- Allowing resync to TCP stream using Magic Cookies.  (see in # [2.2.3.1](#2231-message-id--32-bit))
 
->&#8194;&#8195;**Multiple Service-Instances**
->
->&#8194;&#8194;&#8195;- Service-Instances of the same Service are identified through different Instance IDs. It shall be supported that multiple Service-Instances reside on different ECUs as well as multiple Service-Instances of one or more Services reside on one single ECU.
->
->&#8194;&#8194;&#8195;- While several Service-Instances of different Services shall be able to share the same port number of the transport layer protocol used, multiple Service-Instances of the same Service on one single ECU shall use different ports per Service-Instance.
->
->&#8194;&#8194;&#8195;- **Rationale: While Instance IDs are used for Service Discovery, they are not contained in the SOME/IP header.**
->
->&#8194;&#8194;&#8195;- A Service Instance can be identified through the combination of the Service ID combined with the socket (i.e. IP address, transport protocol (UDP/TCP), and port number).
->
->&#8194;&#8194;&#8195;- It is recommended that instances use the same port number for UDP and TCP. If a service instance uses UDP port x, only this instance of the service and not another instance of the same service should use exactly TCP port x for its services.
+#### 2.3.1.1 &#8194;Choosing the transport protocol
 
-&#8194;&#8195;**Transporting large SOME/IP messages of UDP (SOME/IP-TP)**, see in # [3. SOME/IP SD Protocol Specification](3-SOME--IP-SD-Protocol-Specification)
+>&#8194;&#8195;SOME/IP supports User Datagram Protocol (UDP) and Transmission Control Protocol (TCP). While UDP is a very lean transport protocol supporting only the most important features (multiplexing and error detecting using a checksum), TCP adds additional features for achieving a reliable communication. TCP not only handles bit errors but also segmentation, loss, duplication, reordering, and network congestion.
+
+&#8194;&#8195;对于一些车载应用来说，它们设定了非常短的超时时间以达到快速响应的目的。基于这一点，使用 UDP 传输能更好的满足要求，因为应用程序本身可以处理不太可能发生的错误事件。例如，在一些周期性的数据获取场景中，
+
+#### 2.3.1.2 &#8194;Multiple Service-Instances
+
+>&#8194;&#8195;Service-Instances of the same Service are identified through different Instance IDs. It shall be supported that multiple Service-Instances reside on different ECUs as well as multiple Service-Instances of one or more Services reside on one single ECU.
+>
+>&#8194;&#8195;While several Service-Instances of different Services shall be able to share the same port number of the transport layer protocol used, multiple Service-Instances of the same Service on one single ECU shall use different ports per Service-Instance.
+>
+>&#8194;&#8195;**Rationale: While Instance IDs are used for Service Discovery, they are not contained in the SOME/IP header.**
+>
+>&#8194;&#8195;A Service Instance can be identified through the combination of the Service ID combined with the socket (i.e. IP address, transport protocol (UDP/TCP), and port number).
+>
+>&#8194;&#8195;It is recommended that instances use the same port number for UDP and TCP. If a service instance uses UDP port x, only this instance of the service and not another instance of the same service should use exactly TCP port x for its services.
+
+#### 2.3.1.3 &#8194;Transporting large SOME/IP messages of UDP (SOME/IP-TP)
+
+&#8194;&#8195;See in # [4. SOME/IP TP Protocol Specification](4-SOME--IP-TP-Protocol-Specification)
 
 ### 2.3.2 &#8194;Error Handling
 
