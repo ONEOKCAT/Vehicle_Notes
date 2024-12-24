@@ -612,7 +612,19 @@
 
 >&#8194;&#8195;SOME/IP supports User Datagram Protocol (UDP) and Transmission Control Protocol (TCP). While UDP is a very lean transport protocol supporting only the most important features (multiplexing and error detecting using a checksum), TCP adds additional features for achieving a reliable communication. TCP not only handles bit errors but also segmentation, loss, duplication, reordering, and network congestion.
 
-&#8194;&#8195;对于一些车载应用来说，它们设定了非常短的超时时间以达到快速响应的目的。基于这一点，使用 UDP 传输能更好的满足要求，因为应用程序本身可以处理不太可能发生的错误事件。例如，在一些周期性的数据获取场景中，
+&#8194;&#8195;对于一些车载应用来说，它们设定了非常短的超时时间以达到快速响应的目的。基于这一点，使用 UDP 传输能更好的满足要求，因为应用程序本身可以处理不太可能发生的错误事件。例如，在一些周期性的数据传输场景中，针对传输故障，更好的策略是等待下一次数据传输，而不是尝试修复上一次传输结果。
+
+>&#8194;&#8195;Guideline：
+>
+>&#8194;&#8194;&#8195;- Use TCP only if very large chunks of data need to be transported (> 1400 Bytes) and no hard latency requirements in the case of errors exists.
+>
+>&#8194;&#8194;&#8195;- Use UDP if very hard latency requirements (<100ms) in case of errors is needed.
+>
+>&#8194;&#8194;&#8195;- Use UDP together with SOME/IP-TP if very large chunks of data need to be transported (> 1400 Bytes) and hard latency requirements in the case of errors exists.
+>
+>&#8194;&#8194;&#8195;- Try using external transport or transfer mechanisms (Network File System, APIX link, 1722, ...) when they are more suited for the use case. In this case SOME/IP can transport a file handle or a comparable identifier. This gives the designer additional freedom (e.g. in regard to caching).
+>
+>&#8194;&#8195;The transport protocol used is specified by the interface specification on a per-message basis. Methods, Events, and Fields should commonly only use a single transport protocol.
 
 #### 2.3.1.2 &#8194;Multiple Service-Instances
 
