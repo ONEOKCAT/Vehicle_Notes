@@ -514,7 +514,7 @@
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-String_Dynamic_Length.png width="640px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-String_Compare.png width="700px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-String_Compare.png width="680px">
 
 #### 2.2.4.5 &#8194;Arrays
 
