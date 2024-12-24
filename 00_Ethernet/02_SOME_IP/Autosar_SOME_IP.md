@@ -65,7 +65,7 @@
 &#8194;&#8194;&#8195;- 解决服务提供者和消费者之间的网络通信问题。
  
 &#8194;&#8194;&#8195;- SOME/IP 报文定义了服务接口的内容。
-。
+
 &#8194;&#8195;**MiddlewarE / 中间件**
 
 &#8194;&#8194;&#8195;- 处于独立操作系统 / 硬件和应用层之间的系统软件或服务程序。
@@ -514,7 +514,7 @@
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-String_Dynamic_Length.png width="640px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-String_Compare.png width="640px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-String_Compare.png width="700px">
 
 #### 2.2.4.5 &#8194;Arrays
 
@@ -522,15 +522,15 @@
 
 &#8194;&#8195;同样分为**固定长度**和**可变长度**数组，同时，需要考虑数组维度。
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Array_Compare.png width="640px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Array_Compare.png width="700px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-One-dimensional_array_Fixed_Length.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-One-dimensional_array_Fixed_Length.png width="480px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Multidimensional_array_Fixed_Length.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Multidimensional_array_Fixed_Length.png width="480px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-One-dimensional_array_Dynamic_Length.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-One-dimensional_array_Dynamic_Length.png width="480px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Multidimensional_array_Dynamic_Length.png width="600px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Multidimensional_array_Dynamic_Length.png width="480px">
 
 #### 2.2.4.6 &#8194;Enumeration
 
