@@ -640,11 +640,9 @@
 
 #### 2.3.1.3 &#8194;Transporting large SOME/IP messages of UDP (SOME/IP-TP)
 
-&#8194;&#8195;See in # [4. SOME/IP TP Protocol Specification](4-someip-tp-protocol-specification)
+&#8194;&#8195;See in # [4. SOME/IP TP Protocol Specification](#4-someip-tp-protocol-specification)
 
 ### 2.3.2 &#8194;Error Handling
-
-
 
 # 3 &#8194;SOME/IP SD Protocol Specification
 
