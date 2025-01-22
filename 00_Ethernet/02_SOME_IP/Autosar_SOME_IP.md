@@ -350,7 +350,7 @@
 >
 >&#8194;&#8195;The Session ID is a unique identifier that allows to distinguish sequential messages or requests originating from the same sender from each other.
 >
->&#8194;&#8195;The Client ID shall also support being unique in the overall vehicle by having a configurable prefix or fixed value (e.g. the most significant byte of Client ID being the diagnostics address or a configured Client ID for a given application/SW-C).
+>&#8194;&#8195;The Client ID shall also support being unique in the overall vehicle by having a configurable prefix or fixed value (e.g. the most significant byte of Client ID being the diagnostics address or a configured Client ID for a given application/SW-C).
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Header_Request_ID.png width="400px">
 
