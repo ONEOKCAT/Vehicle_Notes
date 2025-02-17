@@ -686,7 +686,7 @@
 
 #### 2.3.2.3 &#8194;Error Processing Overview
 
-<img src=https://github.com/ONEOKCAT/SOMEIP-Message_Validation_and_Error_Handling.png>
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Message_Validation_and_Error_Handling.png>
 
 >&#8194;&#8195;For SOME/IP messages received over UDP, the following shall be checked:
 >
@@ -720,7 +720,7 @@
 
 >&#8194;&#8195;While different implementations may implement different approaches, SOME/IP currently achieves "maybe" reliability when using the UDP binding and "exactly once" reliability when using the TCP binding. Further error handling is left to the application.
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Error_Reliability_Maybe.png width="450px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Error_Reliability_Maybe.png>
 
 # 3 &#8194;SOME/IP SD Protocol Specification
 
