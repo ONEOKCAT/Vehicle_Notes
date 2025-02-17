@@ -644,7 +644,87 @@
 
 ### 2.3.2 &#8194;Error Handling
 
+#### 2.3.2.1 &#8194;General
+
+>&#8194;&#8195;Error handling can be done in the application or the communication layer below. Therefore SOME/IP supports two different mechanisms:
+>
+>&#8194;&#8194;&#8195;- Return Codes in the Response Messages of methods
+>
+>&#8194;&#8194;&#8195;- Explicit Error Messages
+
+&#8194;&#8195;Response Message: Message Type = 0x80, Return Code ≠ 0x00
+
+&#8194;&#8195;Error Message: Message Type = 0x81, Return Code ≠ 0x00
+
+&#8194;&#8195;see in # [2.2.3.6 Message_Type](#2236-message-type--8-bit)
+
+&#8194;&#8195;see in # [2.2.3.7 Return_Code](#2237-return-code--8-bit)
+
+#### 2.3.2.2 &#8194;Error Handing Rules
+
+>&#8194;&#8195;- The receiver of a SOME/IP message shall not return an error message for events/notifications.
+>
+>&#8194;&#8195;- The receiver of a SOME/IP message shall not return an error message for fire&forget methods.
+>
+>&#8194;&#8195;-The receiver of a SOME/IP message shall not return an error message for events/notifications and fire&forget methods if the Message Type is set incorrectly to Request or Response.
+>
+>&#8194;&#8195;- For Request/Response methods the error message shall copy over the fields of the SOME/IP header (i.e. Message ID, Request ID, and Interface Version) but not the payload. In addition Message Type and Return Code have to be set to the appropriate values.
+
+&#8194;&#8195;- 解析：即只有 Request/Response 机制才会返回 Error Message。
+
+>&#8194;&#8195;- If more detailed error information need to be transmitted, the payload of the Error Message (Message Type 0x81) shall be filled with error specific data, e.g. an exception string. Error Messages shall be sent instead of Response Messages.
+>
+>&#8194;&#8195;- The recommended layout for the exception message is the following:
+>
+>&#8194;&#8194;&#8195;1. Union of specific exceptions. At least a generic exception without fields needs to exist. 
+>
+>&#8194;&#8194;&#8195;2. Dynamic Length String for exception description.
+
+>&#8194&#8195;- Explicit Error Messages shall be used to transport application errors and the response data or generic SOME/IP errors from the provider to the caller of a method.
+
+&#8194;&#8195;- 解析：Retrun Code < 0x20 时，针对 SOME/IP 错误，使用 Error Message；Retrun Code ≥ 0x20 时，针对 "specific errors of services and methods"，使用 Response Message。
+
+#### 2.3.2.3 &#8194;Error Processing Overview
+
+<img src=https://github.com/ONEOKCAT/SOMEIP-Message_Validation_and_Error_Handling.png>
+
+>&#8194;&#8195;For SOME/IP messages received over UDP, the following shall be checked:
+>
+>&#8194;&#8194;&#8195;- The UDP datagram size shall be at least 16 Bytes (minimum size of a SOME/IP message)
+>
+>&#8194;&#8194;&#8195;- The value of the length field shall be less than or equal to the remaining bytes in the UDP datagram payload
+>
+>&#8194;&#8195;If one check fails, a malformed error shall be issued.
+
+>&#8194;&#8195;**[PRS_SOMEIP_00195]** SOME/IP messages shall be checked by error processing. This does not include the application based error handling but just covers the error handling in messaging and RPC.
+
+>&#8194;&#8195;When one of the errors specified in **[PRS_SOMEIP_00195]** occurs while receiving SOME/IP messages over TCP, the receiver shall check the TCP connection and shall restart the TCP connection if needed.
+>
+>&#8194;&#8195;Checking the TCP connection might include the following:
+>
+>&#8194;&#8194;&#8195;- Checking whether data is received for e.g. other Eventgroups.
+>
+>&#8194;&#8194;&#8195;- Sending out a Magic Cookie message and waiting for the TCP ACK.
+>
+>&#8194;&#8194;&#8195;- Reestablishing the TCP connection.
+
+#### 2.3.2.4 &#8194;Communication Errors and Handling of Communication Errors
+
+>&#8194;&#8195;When considering the transport of RPC messages different reliability semantics exist:
+>
+>&#8194;&#8194;&#8195;- Maybe — the message might reach the communication partner
+>
+>&#8194;&#8194;&#8195;- At least once — the message reaches the communication partner at least once
+>
+>&#8194;&#8194;&#8195;- Exactly once — the message reaches the communication partner exactly once
+
+>&#8194;&#8195;While different implementations may implement different approaches, SOME/IP currently achieves "maybe" reliability when using the UDP binding and "exactly once" reliability when using the TCP binding. Further error handling is left to the application.
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Error_Reliability_Maybe.png width="450px">
+
 # 3 &#8194;SOME/IP SD Protocol Specification
+
+
 
 # 4 &#8194;SOME/IP TP Protocol Specification
 
