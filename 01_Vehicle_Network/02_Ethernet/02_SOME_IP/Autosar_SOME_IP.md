@@ -646,7 +646,7 @@
 
 #### 2.3.2.1 &#8194;General
 
->&#8194;&#8195;Error handling can be done in the application or the communication layer below. Therefore SOME/IP supports two different mechanisms:
+>&#8194;&#8195;Error handling can be done in the application or the communication layer below. Therefore SOME/IP supports two different mechanisms:
 >
 >&#8194;&#8194;&#8195;- Return Codes in the Response Messages of methods
 >
