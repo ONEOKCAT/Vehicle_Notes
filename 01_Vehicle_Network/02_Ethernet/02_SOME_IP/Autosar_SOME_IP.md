@@ -946,7 +946,7 @@
 
 &#8194;&#8195;TTL：以秒为单位，若设置为 0xFFFFFF 则表示为重启前永远有效。
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Entry_Type_By_TypeAndTTL.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Entry_Type_By_TypeAndTTL.png width="480px">
 
 &#8194;&#8195;**Service ID：服务 ID，用于区分不同服务。**
 
@@ -960,7 +960,7 @@
 
 #### 3.2.2.2 &#8194;Referencing Options from Entries
 
->&#8194;&#8195;Using the following fields of the entries, options are referenced by the entries:
+>&#8194;&#8195;Using the following fields of the entries, options are referenced by the entries:
 >
 >&#8194;&#8194;&#8195;Index First Option Run: Index into array of options for first option run. Index 0 means first of SOME/IP-SD packet.
 >
@@ -996,21 +996,322 @@
 >
 >&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
 
-&#8194;&#8195;
-
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Option_Format.png width="640px">
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Option_Format_Type1.png width="640px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Option_Format_Type2.png width="420px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Option_Format_Type2.png width="320px">
+
+#### 3.2.3.1 &#8194;Discardable Flag
+
+&#8194;&#8195;目的：说明 Option 是否可被丢弃。
+
+&#8194;&#8195;要求：Configuration Option 和 Load Balance Option 根据可丢弃情况设置；其他 Option Type 必须设置为 0。
+
+&#8194;&#8195;作用：收到 SD 报文，进行 Option 检查 —— 
+
+&#8194;&#8194;&#8195;- 若收到的 Option 未知（对于接收方而言，Option 未定义或不支持），且 Discardable Flag = 1，可忽略该 Option；
+
+&#8194;&#8194;&#8195;- 若收到的 Option 未知（对于接收方而言，Option 未定义或不支持），且 Discardable Flag = 0：
+
+&#8194;&#8195;&#8195;1. 若被 Find 类型 Entry 引用的是 Endpoint Option 或 Multicast Option，则忽略 Option，但仍然能处理 Entry；若 Find 类型 Entry 引用的是 Configuration Option 或 Load Balance Option，则忽略整个 Entry；
+
+&#8194;&#8195;&#8195;2. 若被 Offer 类型 Entry 引用，应忽略 Entry；
+
+&#8194;&#8195;&#8195;3. 若被 SubscribeEventgroup 类型 Entry 引用，应回复 NACK；
+
+&#8194;&#8195;&#8195;4. 若被 SubscribeEventgroupACK 类型 Entry 引用，可以处理 Entry，但会认定为订阅失败。
+
+#### 3.2.3.2 &#8194;Configuration Option
+
+>&#8194;&#8195;The configuration option is used to transport arbitrary configuration strings. This allows to encode additional information like the name of a service or its configuration.
+
+>&#8194;&#8195;The format of the Configuration Option shall be as follows:
+>
+>&#8194;&#8194;&#8195;Length [uint16]: Shall be set to the total number of bytes occupied by the configuration option, excluding the 16 bit length field and the 8 bit type flag.
+>
+>&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x01.
+>
+>&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 1 if the Option can be discarded by the receiver.
+>
+>&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>
+>&#8194;&#8194;&#8195;ConfigurationString [dyn length]: Shall carry the configuration string.
+
+>&#8194;&#8195;The Configuration Option shall specify a set of name value-pairs based on the DNS TXT and DNS-SD format.
+>
+>&#8194;&#8195;The format of the configuration string shall start with a single byte length field that describes the number of bytes following this length field.
+After the length field a character sequence with the specified length shall follow.
+>
+>&#8194;&#8195;After each character sequence another length field and a following character sequence are expected until a length field shall be set to 0x00.
+>
+>&#8194;&#8195;After a length field is set to 0x00 no characters shall follow.
+>
+>&#8194;&#8195;A character sequence shall encode a key and optionally a value.
+>
+>&#8194;&#8195;The character sequences shall contain an equal character ("=", 0x3D) to divide key and value.
+>
+>&#8194;&#8195;The key shall not include an equal character and shall be at least one non-whitespace character. The characters of "Key" shall be printable USASCII values (0x20-0x7E), excluding "=" (0x3D).
+>
+>&#8194;&#8195;The "=" shall not be the first character of the sequence.
+>
+>&#8194;&#8195;For a character sequence without an "=" that key shall be interpreted as present.
+>
+>&#8194;&#8195;For a character sequence ending on an "=" that key shall be interpreted as present with empty value.
+>
+>&#8194;&#8195;Multiple entries with the same key in a single Configuration Option shall be supported.
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Configuration_Option.png width="640px">
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Configuration_Option_Example.png width="640px">
+
+#### 3.2.3.3 &#8194;Load Balancing Option
+
+>&#8194;&#8195;The Load Balancing option is used to prioritize different instances of a service, so thata client chooses the service instance based on these settings. This option will be attached to Offer Service entries.
+
+>&#8194;&#8195;The Load Balancing Option shall carry a **Priority** and **Weight** like the DNS-SRV records, which shall be used for load balancing different service instances.
+>
+>&#8194;&#8195;When looking for all service instances of a service (Service Instance set to 0xFFFF), the client shall choose the service instance with highest priority that also matches client specific criteria.
+>
+>&#8194;&#8195;When looking for a specific service instances of a service (Service Instance set to any value other than 0xFFFF), the evaluation of the Load Balancing Option does not apply
+>
+>&#8194;&#8195;When having more than one service instance with highestpriority (lowest value in Priority field) the service instance shall be chosen randomly based on the weights of the service instances. The probability of choosing a service instance shall be the weight of a service instance divided by the sum of the weights of all considered service instances.
+>
+>&#8194;&#8195;If an Offer Service entry references no Load Balancing option and several service instances are offered, the client shall handle the service instances without Load Balancing option as though they had the lowest priority.
+
+>&#8194;&#8195;The Format of the Load Balancing Option shall be as follows:
+>
+>&#8194;&#8194;&#8195;Length [uint16]: Shall be set to 0x0005.
+>
+>&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x02
+>
+>&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 1 if the Option can be discarded by the receiver.
+>
+>&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>
+>&#8194;&#8194;&#8195;Priority [uint16]: Carries the Priority of this instance. Lower value means higher priority.
+>
+>&#8194;&#8194;&#8195;Weight [uint16]: Carries the Weight of this instance. Large value means higher probability to be chosen.
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Load_Balancing_Option.png width="640px">
+
+#### 3.2.3.4 &#8194;IPv4 Endpoint Option
+
+>&#8194;&#8195;The IPv4 Endpoint Option is used by a SOME/IP-SD instance to signal the relevant endpoint(s). Endpoints include the local IP address, the transport layer protocol (e.g. UDP or TCP), and the port number of the sender. These ports are used for the events and notification events as well.
+
+>&#8194;&#8195;The Format of the IPv4 Endpoint Option shall be as follows:
+>
+>&#8194;&#8194;&#8195;Length [uint16]: Shall be set to 0x0009.
+>
+>&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x04.
+>
+>&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 0.
+>
+>&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>
+>&#8194;&#8194;&#8195;IPv4-Address [uint32]: Shall transport the unicast IP-Address as four Bytes.
+>
+>&#8194;&#8194;&#8195;Reserved [uint8]: Shall be set to 0x00.
+>
+>&#8194;&#8194;&#8195;Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol (ISO/OSI layer 4) based on the IANA/IETF types (0x06: TCP, 0x11: UDP).
+>
+>&#8194;&#8194;&#8195;Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the port of the layer 4 protocol.
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-IPv4_Endpoint_Option.png width="640px">
+
+>&#8194;&#8195;The server shall use the IPv4 Endpoint Option with OfferService entries to signal the endpoints it serves the service on. That is upto one UDP endpoint and upto one TCP endpoint.
+>
+>&#8194;&#8195;The endpoints the server referenced with an Offer Service entry shall also be used as source of events. That is source IP address and source port numbers for the transport protocols in the endpoint option.
+>
+>&#8194;&#8195;The client shall use the IPv4 Endpoint Option with Subscribe Eventgroup entries to signal the IP address and the UDP and/or TCP port numbers, on which it is ready to receive the events.
+>
+>&#8194;&#8195;Different provided service instances of the same service on the same ECU shall use different endpoints, so that they can be differentiated by the endpoints. Different services may share the same endpoints.
+
+#### 3.2.3.5 &#8194;IPv6 Endpoint Option
+
+>&#8194;&#8195;The IPv6 Endpoint Option is used by a SOME/IP-SD instance to signal the relevant endpoint(s). Endpoints include the local IP address, the transport layer protocol (e.g UDP or TCP), and the port number of the sender. These ports are used for the events and notification events as well.
+
+&#8194;&#8195;其他描述可参考 # [3.2.3.4](#3234-IPv4-Endpoint-Option)
+
+>&#8194;&#8195;The Format of the IPv6 Endpoint Option shall be as follows:
+>
+>&#8194;&#8194;&#8195;Length [uint16]: Shall be set to 0x0015.
+>
+>&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x06.
+>
+>&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 0.
+>
+>&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>
+>&#8194;&#8194;&#8195;IPv6-Address [uint128]: Shall transport the unicast IP-Address as 16 Bytes.
+>
+>&#8194;&#8194;&#8195;Reserved [uint8]: Shall be set to 0x00.
+>
+>&#8194;&#8194;&#8195;Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol (ISO/OSI layer 4) based on the IANA/IETF types (0x06: TCP, 0x11: UDP).
+>
+>&#8194;&#8194;&#8195;Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the transport layer port(e.g. 30490).
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-IPv6_Endpoint_Option.png width="640px">
+
+#### 3.2.3.6 &#8194;IPv4 Multicast Option
+
+>&#8194;&#8195;The IPv4 Multicast Option is either transmitted by the server service (server service multicast endpoint) or by the client service (client service multicast endpoint):
+>
+>&#8194;&#8194;&#8195;If it is transmitted by the server service, then a server announces the IPv4 multicast address, the transport layer protocol (ISO/OSI layer 4), and the port number, to where the multicast-events and multicast-notification-events are transmitted to.
+>
+>&#8194;&#8194;&#8195;If it is transmitted by the client service, then a client indicates the IPv4 multicast address, the transport layer protocol (ISO/OSI layer 4), and the port number, where a client expects to receive multicast-events and multicast-notification events.
+
+>&#8194;&#8195;IPv4 Multicast Options shall be referenced by SubscribeEventgroup or by StopSubscribeEventgroup or by SubscribeEventgroupAck entries:
+>
+>&#8194;&#8194;&#8195;If it is referenced by a SubscribeEventgroup entry, it describes the client service multicast endpoint (i.e. destination IP address and destination port), where the multicast-events shall be received by the client.
+>
+>&#8194;&#8194;&#8195;If it is referenced by a StopSubscribeEventgroup entry, it reflects the intent to stop the subscription of a client which has subscribed before via a client service multicast endpoint (i.e. destination IP address and destination port) to the given event group.
+>
+>&#8194;&#8194;&#8195;If it is referenced by a SubscribeEventgroupAck entry, it describes the server service multicast endpoint (i.e. destination IP address and destination port), where a server shall transmit the multicast-events to.
+
+>&#8194;&#8195;The Format of the IPv4 Multicast Option shall be as follows:
+>
+>&#8194;&#8194;&#8195;Length [uint16]: Shall be set to 0x0009.
+>
+>&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x14.
+>
+>&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 0.
+>
+>&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>
+>&#8194;&#8194;&#8195;IPv4-Address [uint32]: Shall transport the multicast IP-Address as four Bytes.
+>
+>&#8194;&#8194;&#8195;Reserved [uint8]: Shall be set to 0x00.
+>
+>&#8194;&#8194;&#8195;Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol (ISO/OSI layer 4) based on the IANA/IETF types (0x11: UDP).
+>
+>&#8194;&#8194;&#8195;Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the port of the layer 4 protocol.
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-IPv4_Multicast_Option.png width="640px">
+
+#### 3.2.3.7 &#8194;IPv6 Multicast Option
+
+&#8194;&#8195;其他描述可参考 # [3.2.3.6](#3234-IPv4-Multicast-Option)
+
+>&#8194;&#8195;The Format of the IPv6 Multicast Option shall be as follows:
+>
+>&#8194;&#8194;&#8195;Length [uint16]: Shall be set to 0x0015.
+>
+>&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x16.
+>
+>&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 0.
+>
+>&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>
+>&#8194;&#8194;&#8195;IPv6-Address [uint128]: Shall transport the multicast IP-Address as 16 Bytes.
+>
+>&#8194;&#8194;&#8195;Reserved [uint8]: Shall be set to 0x00.
+>
+>&#8194;&#8194;&#8195;Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol (ISO/OSI layer 4) based on the IANA/IETF types (0x11: UDP).
+>
+>&#8194;&#8194;&#8195;Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the port of the layer 4 protocol.
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-IPv6_Multicast_Option.png width="640px">
+
+#### 3.2.3.8 &#8194;IPv4 SD Endpoint Option
+
+>&#8194;&#8195;The IPv4 SD Endpoint Option is used to transport the endpoint (i.e. IP-Address and Port) of the senders SD implementation. This is used to identify the SOME/IP-SD Instance even in cases in which the IP-Address and/or Port Number cannot be used.
+>
+>&#8194;&#8195;This is used to identify the SOME/IP-SD Instance even in cases in which the IP-Address and/or Port Number cannot be used. A use case would be a proxy service discovery on one ECU which handles the multicast traffic for another ECU.
+
+>&#8194;&#8195;The IPv4 SD Endpoint Option shall be included in any SD message up to 1 time.
+>
+>&#8194;&#8195;d The IPv4 SD Endpoint Option shall be the first option in the options array, if existing.
+>
+>&#8194;&#8195;The IPv4 SD Endpoint Option shall not be referenced by any SD Entry.
+>
+>&#8194;&#8195;If the IPv4 SD Endpoint Option is included in the SD message, the receiving SD Service Instance shall use the content of this option instead of the Source IP Address and Source Port.
+>
+>&#8194;&#8194;&#8195;This is important for answering the received SD message (e.g. Offer after Find orSubscribe after Offer or Subscribe Ack after Subscribe) as well as the reboot detection (channel based on SD Endpoint Option and not out addresses).
+
+>&#8194;&#8195;The Format of the IPv4 SD Endpoint Option shall be as follows:
+>
+>&#8194;&#8194;&#8195;Length [uint16]: Shall be set to 0x0009.
+>
+>&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x24.
+>
+>&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 0.
+>
+>&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>
+>&#8194;&#8194;&#8195;IPv4-Address [uint32]: Shall transport the unicast IP-Address of SOME/IP-SD as four Bytes
+>
+>&#8194;&#8194;&#8195;Reserved [uint8]: Shall be set to 0x00.
+>
+>&#8194;&#8194;&#8195;Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol of SOME/IP-SD (currently: 0x11 UDP).
+>
+>&#8194;&#8194;&#8195;Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the transport layer port of SOME/IP-SD (currently: 30490).
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-IPv4_SD_Endpoint_Option.png width="640px">
+
+#### 3.2.3.9 &#8194;IPv6 SD Endpoint Option
+
+&#8194;&#8195;其他描述可参考 # [3.2.3.8](#3234-IPv4-SD-Endpoint-Option)
+
+>&#8194;&#8195;The Format of the IPv6 SD Endpoint Option shall be as follows:
+>
+>&#8194;&#8194;&#8195;Length [uint16]: Shall be set to 0x0015.
+>
+>&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x26.
+>
+>&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 0.
+>
+>&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>
+>&#8194;&#8194;&#8195;IPv6-Address [uint128]: Shall transport the unicast IP-Address of SOME/IP-SD as 16 Bytes.
+>
+>&#8194;&#8194;&#8195;Reserved [uint8]: Shall be set to 0x00.
+>
+>&#8194;&#8194;&#8195;Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol of SOME/IP-SD (currently: 0x11 UDP).
+>
+>&#8194;&#8194;&#8195;Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the transport layer port of SOME/IP-SD (currently: 30490).
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-IPv6_SD_Endpoint_Option.png width="640px">
+
+### 3.2.4 &#8194;Service Entries
+
+#### 3.2.4.1 &#8194;Find Service Entry
 
 
 
+#### 3.2.4.2 &#8194;Offer Service Entry
 
 
 
+#### 3.2.4.3 &#8194;Stop Offer Service Entry
 
 
+
+#### 3.2.4.4 &#8194;Usage of Options in Entries
+
+
+
+#### 3.2.4.5 &#8194;
+
+#### 3.2.4.6 &#8194;
+
+#### 3.2.4.7 &#8194;
+
+### 3.2.5 &#8194;Service Entries
+
+#### 3.2.5.1 &#8194;Subscribe Eventgroup Entry
+
+
+
+#### 3.2.5.2 &#8194;Stop Subscribe Eventgroup Entry
+
+
+
+#### 3.2.5.3 &#8194;Subscribe Eventgroup Acknowledgement (Subscribe Eventgroup Ack) Entry
+
+
+
+#### 3.2.5.4 &#8194;Subscribe Eventgroup Negative Acknowledgement (Subscribe Eventgroup Nack) Entry
 
 
 
