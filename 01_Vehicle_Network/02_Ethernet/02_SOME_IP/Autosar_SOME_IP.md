@@ -1159,7 +1159,7 @@ After the length field a character sequence with the specified length shall foll
 >
 >&#8194;&#8194;&#8195;If it is transmitted by the server service, then a server announces the IPv4 multicast address, the transport layer protocol (ISO/OSI layer 4), and the port number, to where the multicast-events and multicast-notification-events are transmitted to.
 >
->&#8194;&#8194;&#8195;If it is transmitted by the client service, then a client indicates the IPv4 multicast address, the transport layer protocol (ISO/OSI layer 4), and the port number, where a client expects to receive multicast-events and multicast-notification events.
+>&#8194;&#8194;&#8195;If it is transmitted by the client service, then a client indicates the IPv4 multicast address, the transport layer protocol (ISO/OSI layer 4), and the port number, where a client expects to receive multicast-events and multicast-notification events.
 
 >&#8194;&#8195;IPv4 Multicast Options shall be referenced by SubscribeEventgroup or by StopSubscribeEventgroup or by SubscribeEventgroupAck entries:
 >
