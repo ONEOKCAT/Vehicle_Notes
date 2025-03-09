@@ -768,7 +768,7 @@
 
 >&#8194;&#8195;SOME/IP-SD depends on SOME/IP. SOME/IP itself supports both TCP and UDP communications but **SOME/IP-SD is constraint to use SOME/IP only over UDP**.
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Dependencies_to_other_protocol_layers.png width="360px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Dependencies_to_other_protocol_layers.png width="240px">
 
 ### 3.1.4 &#8194;Use Cases
 
