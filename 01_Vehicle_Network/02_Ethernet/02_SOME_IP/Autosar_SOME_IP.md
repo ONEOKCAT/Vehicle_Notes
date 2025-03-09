@@ -744,11 +744,11 @@
 >
 >&#8194;&#8195;Inside the vehicular network service instance locations are commonly known; therefore, **the state of the service instance is of primary concern**. The location of the service (i.e. IP-Address, transport protocol, and port number) are of secondary concern.
 
-&#8194;&#8195;定位服务示例（IP/Port）：Find Service / Offer Service / Stop Offer Service 
+&#8194;&#8195;定位服务示例（IP/Port）：FindService / OfferService / StopOfferService 
 
 &#8194;&#8195;检测服务示例运行状态                                                                                                                                                                                           
 
-&#8194;&#8195;实现发布和订阅：Subscribe Eventgroup / Stop Subscribe Eventgroup / Subscribe Eventgroup ACK / Subscribe Eventgroup NACK
+&#8194;&#8195;实现发布和订阅：SubscribeEventgroup / StopSubscribeEventgroup / SubscribeEventgroupACK / SubscribeEventgroupNACK
 
 ### 3.1.2 &#8194;Applicability of the protocol
 
@@ -768,11 +768,11 @@
 
 >&#8194;&#8195;SOME/IP-SD depends on SOME/IP. SOME/IP itself supports both TCP and UDP communications but **SOME/IP-SD is constraint to use SOME/IP only over UDP**.
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Dependencies_to_other_protocol_layers.png width="480px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Dependencies_to_other_protocol_layers.png width="360px">
 
 ### 3.1.4 &#8194;Use Cases
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Use_Cases.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Use_Cases.png width="640px">
 
 ### 3.1.5 &#8194;Terms and Definitions
 
@@ -812,7 +812,7 @@
 >
 >&#8194;&#8194;&#8195;- Options Array [variable size]
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Header_Format.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Header_Format.png width="640px">
 
 >&#8194;&#8195;Service Discovery messages shall have a Client-ID (16 its) set to 0x0000, **since there exists only a single SOME/IP-SD instance.**
 >
@@ -826,13 +826,13 @@
 >
 >&#8194;&#8195;SOME/IP-SD Session ID handling is done per "communication relation", i.e. multicast as well as unicast per peer.
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Message-Example.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Message-Example.png width="640px">
 
 ### 3.2.1 &#8194;Flags
 
 >&#8194;&#8195;The SOME/IP-SD Header shall start with an 8 Bit field called flags.
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Header_Flags-.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Header_Flags.png width="540px">
 
 &#8194;&#8195;**Reboot Flag**
 
@@ -898,13 +898,113 @@
 >
 >&#8194;&#8194;&#8195;Service-ID [uint16]: Describes the Service ID of the Service or Service-Instance this entry is concerned with.
 >
->&#8194;&#8194;&#8195;Instance ID [uint16]: Describes the Service Instance ID of the Service Instance this entry is concerned with or is set to 0xFFFF if all service instances of a service are meant.
+>&#8194;&#8194;&#8195;Instance ID [uint16]: **Describes the Service Instance ID of the Service Instance this entry is concerned with or is set to 0xFFFF if all service instances of a service are meant.**
 >
 >&#8194;&#8194;&#8195;Major Version [uint8]: Encodes the major version of the service (instance).
 >
 >&#8194;&#8194;&#8195;TTL [uint24]: Describes the lifetime of the entry in seconds.
 >
 >&#8194;&#8194;&#8195;Minor Version [uint32]: Encodes the minor version of the service.
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Service_Entry_Type.png width="640px">
+
+>&#8194;&#8195;An Eventgroup Entry (Type 2) shall be 16 Bytes of size and include the following fields in this order:
+>
+>&#8194;&#8194;&#8195;Type Field [uint8]: encodes SubscribeEventgroup (0x06), StopSubscribeEventgroup (0x06), SubscribeAck (0x07) and SubscribeEventgroupNack (0x07).
+>
+>&#8194;&#8194;&#8195;Index of first option run [uint8]: Index of this runs first option in the option array.
+>
+>&#8194;&#8194;&#8195;Index of second option run [uint8]: Index of this runs second option in the option array.
+>
+>&#8194;&#8194;&#8195;Number of Options 1 [uint4]: Describes the number of options the first option run uses.
+>
+>&#8194;&#8194;&#8195;Number of Options 2 [uint4]: Describes the number of options the second option run uses.
+>
+>&#8194;&#8194;&#8195;Service-ID [uint16]: Describes the Service ID of the Service or Service Instance this entry is concerned with.
+>
+>&#8194;&#8194;&#8195;Instance ID [uint16]: **Describes the Service Instance ID of the Service Instancethis entry is concerned with. The Service Instance ID shall not be set to 0xFFFF for any Instance.**
+>
+>&#8194;&#8194;&#8195;Major Version [uint8]: Encodes the major version of the service instance this eventgroup is part of.
+>
+>&#8194;&#8194;&#8195;TTL [uint24]: Descibes the lifetime of the entry in seconds.
+>
+>&#8194;&#8194;&#8195;Reserved [uint12]: Shall be set to 0x000.
+>
+>&#8194;&#8194;&#8195;Counter [uint4]: **Is used to differentiate identical Subscribe Eventgroups of the same subscriber. Set to 0x0 if not used.**
+>
+>&#8194;&#8194;&#8195;Eventgroup ID [uint16]: Transports the ID of an Eventgroup.
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Eventgroup_Entry_Type.png width="640px">
+
+>&#8194;&#8195;The Major Version of an entry shall match the version of the corresponding Service Interface.
+>
+>&#8194;&#8195;For Service Discovery on Classic Platform the Major version of SdServerService and SdClientService, respectively, has to match the Interface Version of the corresponding Service Interface.
+
+#### 3.2.2.1 &#8194;Entry 字段解析补充
+
+&#8194;&#8195;**Type 和 TTL 共同确认 Entry 类型。**
+
+&#8194;&#8195;TTL：以秒为单位，若设置为 0xFFFFFF 则表示为重启前永远有效。
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Entry_Type_By_TypeAndTTL.png width="540px">
+
+&#8194;&#8195;**Service ID：服务 ID，用于区分不同服务。**
+
+&#8194;&#8195;**Instance ID：服务实例 ID，用于区分不同服务实例。**
+
+&#8194;&#8194;&#8195;通常情况下，不涉及多个服务实例，e.g. 调用车载摄像头服务时，可能会存在前后左右 4 个，其共用一个 Service ID，此时就需要使用 Instance ID 对其进行区分；类似的还包括空调分区等。（当使用 Eventgroup Entry Type 时，Instance ID 不能设置为 0xFFFF）
+
+&#8194;&#8195;**Eventgroup ID：事件组 ID，区分需要订阅的不同事件组。**
+
+&#8194;&#8195;**Counter**：用于区分同一订阅者发送出的
+
+#### 3.2.2.2 &#8194;Referencing Options from Entries
+
+>&#8194;&#8195;Using the following fields of the entries, options are referenced by the entries:
+>
+>&#8194;&#8194;&#8195;Index First Option Run: Index into array of options for first option run. Index 0 means first of SOME/IP-SD packet.
+>
+>&#8194;&#8194;&#8195;Index Second Option Run: Index into array of options for second option run. Index 0 means first of SOME/IP-SD packet.
+>
+>&#8194;&#8194;&#8195;Number of Options 1: Length of first option run. Length 0 means no option in option run.
+>
+>&#8194;&#8194;&#8195;Number of Options 2: Length of second option run. Length 0 means no option in option run.
+
+>&#8194;&#8195;Two different option runs exist: First Option Run and Second Option Run.
+>
+>&#8194;&#8195;Rationale for the support of two option runs: Two different types of options are expected: options common between multiple SOME/IP-SD entries and options different for each SOME/IP-SD entry. Supporting two different options runs is the most efficient way to support these two types of options, while keeping the wire format highly efficient.
+
+>&#8194;&#8195;Each option run shall reference the first option and the number of options for this run.
+>
+>&#8194;&#8195;If the number of options is set to zero, the option run is considered empty.
+>
+>&#8194;&#8195;For empty runs the Index (i.e. Index First Option Run and/or Index Second Option Run) shall be set to zero.
+>
+>&#8194;&#8195;Implementations shall accept and process incoming SD messages with option run length set to zero and option index not set to zero.
+
+### 3.2.3 &#8194;Options Format
+
+>&#8194;&#8195;Options are used to transport additional information to the entries. This includes for instance the information how a service instance is reachable (IP-Address, Transport Protocol, Port Number).
+
+>&#8194;&#8195;In order to identify the option type every option shall start with:
+>
+>&#8194;&#8194;&#8195;Length [uint16]: Specifies the length of the option in Bytes. （不包含 Length 和 Type 字段所占字节）
+>
+>&#8194;&#8194;&#8195;Type [uint8]: Specifying the type of the option.
+>
+>&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Specifies if the option can be discarded. The discardable flag shall be set to 1 if the option can be discarded by a receiving ECU that does not support this option.
+>
+>&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+
+&#8194;&#8195;
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Option_Format.png width="640px">
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Option_Format_Type1.png width="640px">
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Option_Format_Type2.png width="420px">
+
+
 
 
 
