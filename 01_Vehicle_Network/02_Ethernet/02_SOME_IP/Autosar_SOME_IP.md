@@ -34,7 +34,7 @@
  
 &#8194;&#8194;&#8195;- AUTOSAR_SOME/IP Service Discovery Protocol Specification
 
-&#8194;&#8195;&#8195;揭示了 SOME/IP SD 协议的两个主要内容 —— **服务发现 / Service Discovery**和**服务发布/订阅 / Service Pulish/Subscribe**
+&#8194;&#8195;&#8195;揭示了 SOME/IP-SD 协议的两个主要内容 —— **服务发现 / Service Discovery**和**服务发布/订阅 / Service Pulish/Subscribe**
 
 &#8195;&#8195;&#8195;- 基于 SD，客户端可寻找自身所需的服务，客户端也可表明能够提供哪些服务；以此，客户端与服务端可动态建立连接。
 
@@ -722,11 +722,201 @@
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-Error_Reliability_Maybe.png width="640px">
 
-# 3 &#8194;SOME/IP SD Protocol Specification
+# 3 &#8194;SOME/IP-SD Protocol Specification
+
+## 3.1 &#8194;SOME/IP-SD Introduction
+
+>&#8194;&#8195;The main tasks of the Service Discovery Protocol are communicating the availability of functional entities called services in the in-vehicle communication as well as controlling the send behavior of event messages.
+>
+>&#8194;&#8195;This allows sending only event messages to receivers requiring them (Publish/Subscribe).
+
+&#8194;&#8195;通过 SOME/IP-SD 对服务进行订阅，然后再用 SOME/IP 协议中的 Notification 类型报文，发布订阅内容。
+
+### 3.1.1 &#8194;Protocol purpose and objectives
+
+>&#8194;&#8195;SOME/IP-SD is used to
+>
+>&#8194;&#8194;&#8195;- Locate service instances.
+>
+>&#8194;&#8194;&#8195;- Detect if service instances are running.
+>
+>&#8194;&#8194;&#8195;- Implement the Publish/Subscribe handling.
+>
+>&#8194;&#8195;Inside the vehicular network service instance locations are commonly known; therefore, **the state of the service instance is of primary concern**. The location of the service (i.e. IP-Address, transport protocol, and port number) are of secondary concern.
+
+&#8194;&#8195;定位服务示例（IP/Port）：Find Service / Offer Service / Stop Offer Service 
+
+&#8194;&#8195;检测服务示例运行状态                                                                                                                                                                                           
+
+&#8194;&#8195;实现发布和订阅：Subscribe Eventgroup / Stop Subscribe Eventgroup / Subscribe Eventgroup ACK / Subscribe Eventgroup NACK
+
+### 3.1.2 &#8194;Applicability of the protocol
+
+>&#8194;&#8195;SOME/IP-SD can be used for service discovery in automotive vehicle networks.
+>
+>&#8194;&#8195;The SOME/IP-SD has the following constraints:
+>
+>&#8194;&#8194;&#8195;- SOME/IP-SD supports only IP based communication.
+>
+>&#8194;&#8194;&#8195;- The network communication design has to consider the following limitations, if a client service subscribes with an client service multicast endpoint announced via a Multicast option:
+>
+>&#8194;&#8195;&#8195;Communication which is based on a point to point connection may not be working properly. (e.g. End to end related communication, IPsec communication)
+>
+>&#8194;&#8195;&#8195;Initial events have to be used carefully, because all client services subscribed with the same multicast endpoint to the same server service, receive the initial events every time a new client service is subscribed with the same multicast endpoint to the same server service.
+
+### 3.1.3 &#8194;Dependencies to other protocol layer
+
+>&#8194;&#8195;SOME/IP-SD depends on SOME/IP. SOME/IP itself supports both TCP and UDP communications but **SOME/IP-SD is constraint to use SOME/IP only over UDP**.
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Dependencies_to_other_protocol_layers.png width="480px">
+
+### 3.1.4 &#8194;Use Cases
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Use_Cases.png width="540px">
+
+### 3.1.5 &#8194;Terms and Definitions
+
+>&#8194;&#8195;A separate server service instance shall be used per network interface **if a service needs to be offered on multiple network interfaces**.
+>
+>&#8194;&#8195;A separate client service instance shall be used per network interface **if a service needs to be configured to be accessed using multiple different network interfaces**.
+
+## 3.2 &#8194;SOME/IP-SD Message Format
+
+>&#8194;&#8195;SOME/IP-SD messages shall be sent over UDP.
+
+>&#8194;&#8195;The SOME/IP-SD Header Format shall follow:
+>
+>&#8194;&#8194;&#8195;- **Message ID (Service ID/Method ID) [32 bit]: 0xFFFF 8100**
+>
+>&#8194;&#8194;&#8195;- Length [32 bit]
+>
+>&#8194;&#8194;&#8195;- Request ID (Client ID/Session ID) [32 bit]
+>
+>&#8194;&#8194;&#8195;- **Protocol Version [8 bit]: 0x01**
+>
+>&#8194;&#8194;&#8195;- **Interface Version [8 bit]: 0x01**
+>
+>&#8194;&#8194;&#8195;- **Message Type [8 bit]: 0x02 (Notification)** 
+>
+>&#8194;&#8194;&#8195;- **Return Code [8 bit]: 0x00 (E_OK)**
+>
+>&#8194;&#8194;&#8195;- Flags [8 bit] (**SOME/IP-SD Header Start**s)
+>
+>&#8194;&#8194;&#8195;- Reserved [24 bit]
+>
+>&#8194;&#8194;&#8195;- Length of Entries Array [32 bit]
+>
+>&#8194;&#8194;&#8195;- Entries Array [variable size]
+>
+>&#8194;&#8194;&#8195;- Length of Options Array [32 bit]
+>
+>&#8194;&#8194;&#8195;- Options Array [variable size]
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Header_Format.png width="540px">
+
+>&#8194;&#8195;Service Discovery messages shall have a Client-ID (16 its) set to 0x0000, **since there exists only a single SOME/IP-SD instance.**
+>
+>&#8194;&#8195;Service Discovery messages shall have a Session-ID (16 Bits) and handle it based on SOME/IP requirements.
+>
+>&#8194;&#8195;The Session-ID (SOME/IP header) shall be incremented for every SOME/IP-SD message sent.
+>
+>&#8194;&#8195;The Session-ID (SOME/IP header) shall start with 1 and be 1 even after wrapping.
+>
+>&#8194;&#8195;The Session-ID (SOME/IP header) shall not be set to 0.
+>
+>&#8194;&#8195;SOME/IP-SD Session ID handling is done per "communication relation", i.e. multicast as well as unicast per peer.
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Message-Example.png width="540px">
+
+### 3.2.1 &#8194;Flags
+
+>&#8194;&#8195;The SOME/IP-SD Header shall start with an 8 Bit field called flags.
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Header_Flags-.png width="540px">
+
+&#8194;&#8195;**Reboot Flag**
+
+>&#8194;&#8195;The Reboot Flag of the SOME/IP-SD Header shall be set to one for all messages after reboot until the Session-ID in the SOME/IP-Header wraps around and thus starts with 1 again. After this wrap around the Reboot Flag is set to 0.
+>
+>&#8194;&#8195;The information for the reboot flag and the Session ID shall be kept for multicast and unicast separately.
+>
+>&#8194;&#8195;The information for the reboot flag and the Session ID shall be kept for every sender-receiver relation (i.e. source address and destination address) separately.
+>
+>&#8194;&#8195;This means there shall be separate counters for sending and receiving.
+>
+>&#8194;&#8195;Sending
+>
+>&#8194;&#8194&#8195;There shall be a counter for multicast.
+>
+>&#8194;&#8194&#8195;There shall be a separate counter for each peer for unicast.
+>
+>&#8194;&#8195;Receiving
+>
+>&#8194;&#8194;&#8195;There shall be a counter for each peer for multicast.
+>
+>&#8194;&#8194;&#8195;There shall be a counter for each peer for unicast.
+
+>&#8194;&#8195;The detection of a reboot shall be done as follows (with mthe new values of the current packet from the communication partner and old the last value received before):
+>
+>&#8194;&#8194;&#8195;if old.reboot==0 and new.reboot==1 then Reboot detected
+>
+>&#8194;&#8194;&#8195;OR
+>
+>&#8194;&#8194;&#8195;if old.reboot==1 and new.reboot==1 and old.session_id>=new.session_id then Reboot detected.
+
+&#8194;&#8195;**Unicast Flag**
+
+>&#8194;&#8195;The Unicast Flag of the SOME/IP-SD Header shall be set to Unicast (that means 1) for all SD Messages since this means that receiving using unicast is supported.
+>
+>&#8194;&#8195;The Unicast Flag is left over from historical SOME/IP versions and is only kept for compatibility reasons. Its use besides this is very limited.
+
+&#8194;&#8195;**Undefined bits within the Flag field shall be set to '0' when sending and ignored on receiving.**
+
+### 3.2.2 &#8194;Entry Format
+
+&#8194;&#8195;Entry 是 SOME/IP-SD 报文的主体内容，用于同步服务实例状态和发布/订阅操作。（对于接收方而言，从这里可“进入”获取服务实例的位置以及可用性）
+
+>&#8194;&#8195;The entries are used to synchronize the state of services instances and the Publish/Subscribe handling.
+>
+>&#8194;&#8195;The entries shall be processed exactly in the order they arrive.
+>
+>&#8194;&#8195;The service discovery shall support multiple entries thatare combined in one service discovery message.
+
+>&#8194;&#8195;Two types of entries exist: **A Service Entry Type for Services** and **an Eventgroup Entry Type for Eventgroups**.
+
+>&#8194;&#8195;A Service Entry Type shall be 16 Bytes of size and include the following fields in this order:
+>
+>&#8194;&#8194;&#8195;Type Field [uint8]: encodes FindService (0x00), OfferService (0x01) and StopOfferService (0x01)
+>
+>&#8194;&#8194;&#8195;Index First Option Run [uint8]: Index of this runs first option in the option array.
+>
+>&#8194;&#8194;&#8195;Index Second Option Run [uint8]: Index of this runs second option in the option array.
+>
+>&#8194;&#8194;&#8195;Number of Options 1 [uint4]: Describes the number of options the first option run uses.
+>
+>&#8194;&#8194;&#8195;Number of Options 2 [uint4]: Describes the number of options the second option run uses.
+>
+>&#8194;&#8194;&#8195;Service-ID [uint16]: Describes the Service ID of the Service or Service-Instance this entry is concerned with.
+>
+>&#8194;&#8194;&#8195;Instance ID [uint16]: Describes the Service Instance ID of the Service Instance this entry is concerned with or is set to 0xFFFF if all service instances of a service are meant.
+>
+>&#8194;&#8194;&#8195;Major Version [uint8]: Encodes the major version of the service (instance).
+>
+>&#8194;&#8194;&#8195;TTL [uint24]: Describes the lifetime of the entry in seconds.
+>
+>&#8194;&#8194;&#8195;Minor Version [uint32]: Encodes the minor version of the service.
+
+
+
+
+
+
 
 
 
 # 4 &#8194;SOME/IP TP Protocol Specification
+
+
 
 
 
