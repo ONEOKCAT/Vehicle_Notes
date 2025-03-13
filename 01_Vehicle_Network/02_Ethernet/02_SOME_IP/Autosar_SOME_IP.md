@@ -1277,43 +1277,461 @@ After the length field a character sequence with the specified length shall foll
 
 #### 3.2.4.1 &#8194;Find Service Entry
 
+>&#8194;&#8195;The Find Service entry type shall be used for finding service instances and shall only be sent if the current state of a service is unknown (no current Service Offer was received and is still valid).
 
+>&#8194;&#8195;Find Service entries shall set the entry fields in the following way:
+>
+>&#8194;&#8194;&#8195;- Type shall be set to 0x00 (FindService).
+>
+>&#8194;&#8194;&#8195;- Service ID shall be set to the Service ID of the service that shall be found.（Service ID 设置为当前想要查询的 Service ID）
+>
+>&#8194;&#8194;&#8195;- Instance ID shall be set to 0xFFFF, if all service instances shall be returned. It shall be set to the Instance ID of a specific service instance, if just a single service instance shall be returned.（设置为 0xFFFF 表示想要查询所有服务实例，否则设定为想要查询的 Instance ID）
+>
+>&#8194;&#8194;&#8195;- Major Version shall be set to 0xFF, that means that services with any version shall be returned. If set to value different than 0xFF, services with this specific major version shall be returned only.（设置为 0xFF 表示可接收返回任意主版本的服务，否则指定想要返回的特定主版本）
+>
+>&#8194;&#8194;&#8195;- Minor Version shall be set to 0xFFFF FFFF, that means that services with anyversion shall be returned. If set to a value  different to 0xFFFF FFFF, services with this specific minor version shall be returned only.（同上述）
+>
+>&#8194;&#8194;&#8195;- TTL is not used for FindService entries and can be set to an arbitrary value. The field is only defined for backward compatibility, and the value shall be ignored by the receiver of the message.
+
+>&#8194;&#8195;A sender shall not reference Endpoint Options nor Multicast Options in a Find Service Entry.
+>
+>&#8194;&#8195;A receiver shall ignore Endpoint Options and Multicast Options in a Find Service Entry.
+>
+>&#8194;&#8195;Other Options (neither Endpoint nor Multicast Options), shall still be allowed to be used in a Find Service Entry.
+>
+>&#8194;&#8195;When receiving a FindService Entry the Service ID, Instance ID, Major Version, and Minor Version shall match exactly to the configured values to **identify a Service Instance**, except if "any values" are in the Entry (i.e. 0xFFFF for Service ID, 0xFFFF for Instance ID, 0xFF for Major Version, and 0xFFFFFFFF for Minor Version.)（为识别到指定的服务实例，Service ID / Instance ID / Major Version / Minor Version 参数都应匹配）
 
 #### 3.2.4.2 &#8194;Offer Service Entry
 
+>&#8194;&#8195;The Offer Service entry type shall be used to offer a service to other communication partners.
 
+>&#8194;&#8195;Offer Service entries shall set the entry fields in the following way:
+>
+>&#8194;&#8194;&#8195;- Type shall be set to 0x01 (OfferService).
+>
+>&#8194;&#8194;&#8195;- Service ID shall be set to the Service ID of the service instance offered.
+>
+>&#8194;&#8194;&#8195;- Instance ID shall be set to the Instance ID of the service instance that is offered.
+>
+>&#8194;&#8194;&#8195;- Major Version shall be set to the Major Version of the service instance that is offered.
+>
+>&#8194;&#8194;&#8195;- Minor Version shall be set to the Minor Version of the service instance that is offered.
+>
+>&#8194;&#8194;&#8195;- TTL shall be set to the lifetime of the service instance. After this lifetime the service instance shall considered not been offered.
+>
+>&#8194;&#8194;&#8195;- If TTL is set to 0xFFFFFF, the Offer Service entry shall be considered valid until the next reboot.
+>
+>&#8194;&#8194;&#8195;- **TTL shall not be set to 0x000000 since this is considered to be the Stop Offer Service Entry.**
+
+>&#8194;&#8195;Offer Service entries shall always reference either an IPv4 or IPv6 Endpoint Option to signal how the service is reachable.（至少引用一个 IPv4 / IPv6 Endpoint Option 以表明服务可达路径）
+>
+>&#8194;&#8195;For each Transport Layer Protocol needed for the service (i.e. UDP and/or TCP) an IPv4(IPv6) Endpoint option shall be added if IPv4(IPv6) is supported.
+>
+>&#8194;&#8195;When receiving the initial OfferService Entry the Service ID, Instance ID, Major Version and Minor Version shall match exactly to the configured values to identify a Service Instance, except if "any values" are in the service configuration (i.e. 0xFFFF for Instance ID and 0xFFFFFFFF for Minor Version.)（为识别到指定的服务实例，Service ID / Instance ID / Major Version / Minor Version 参数都应匹配）
+>
+>&#8194;&#8195;When receiving a subsequent OfferService Entry or a StopOfferService Entry the Service ID, Instance ID, Major Version shall match exactly to the values in the initial OfferService entry to identify a Service Instance.（后续的 OfferService Entry 以及 StopOfferService Entry 的参数也应该完全匹配，以识别指定的服务实例）
 
 #### 3.2.4.3 &#8194;Stop Offer Service Entry
 
+>&#8194;&#8195;The Stop Offer Service entry type shall be used to stop offering service instances.
 
+>&#8194;&#8195;Stop Offer Service entries shall set the entry fields exactlylike the Offer Service entry they are stopping, except:（与 OfferService Entry 参数除 TTL 外完全一致）
+>
+>&#8194;&#8194;&#8195;- TTL shall be set to 0x000000.
 
-#### 3.2.4.4 &#8194;Usage of Options in Entries
+>&#8194;&#8195;A StopOfferService (type 0x01), shall carry, i.e. reference, the same options as the entries trying to stop.
 
-
-
-#### 3.2.4.5 &#8194;
-
-#### 3.2.4.6 &#8194;
-
-#### 3.2.4.7 &#8194;
-
-### 3.2.5 &#8194;Service Entries
+### 3.2.5 &#8194;Eventgroup Entries
 
 #### 3.2.5.1 &#8194;Subscribe Eventgroup Entry
 
+>&#8194;&#8195;The Subscribe Eventgroup entry type shall be used to subscribe to an eventgroup.
 
+>&#8194;&#8195;Subscribe Eventgroup entries shall set the entry fields in the following way:
+>
+>&#8194;&#8194;&#8195;- Type shall be set to 0x06 (SubscribeEventgroup).
+>
+>&#8194;&#8194;&#8195;- Service ID shall be set to the Service ID of the service instance that includes the eventgroup subscribed to.
+>
+>&#8194;&#8194;&#8195;- Instance ID shall be set to the Instance ID of the service instance that includes the eventgroup subscribed to.
+>
+>&#8194;&#8194;&#8195;- Major Version shall be set to the Major Version of the service instance of the eventgroup subscribed to.
+>
+>&#8194;&#8194;&#8195;- Eventgroup ID shall be set to the Eventgroup ID of the eventgroup subscribed to.
+>
+>&#8194;&#8194;&#8195;- TTL shall be set to the lifetime of the subscription.
+>
+>&#8194;&#8195;&#8195;1. If set to 0xFFFFFF, the Subscribe Eventgroup entry shall be considered valid until the next reboot.
+>
+>&#8194;&#8195;&#8195;2. TTL shall not be set to 0x000000 since this is considered to be the Stop Offer Service Entry.
+>
+>&#8194;&#8194;&#8195;- Reserved shall be set to 0x000 until further notice.
+>
+>&#8194;&#8194;&#8195;- Counter shall be used to differentiate between parallel subscribes to the same eventgroup of the same service (only difference in endpoint). If not used, set to 0x0.
+
+>&#8194;&#8195;SubscribeEventgroup entries shall reference options according to the following rules:
+>
+>&#8194;&#8194;&#8195;- either up to two IPv4 or up to two IPv6 Endpoint Options (one for UDP, one for TCP)
+>
+>&#8194;&#8194;&#8195;- either up to one IPv4 Multicast Option or up to one IPv6 Multicast Option (only UDP supported)
+
+>&#8194;&#8195;The network communication design has to consider the following points:
+>
+>&#8194;&#8194;&#8195;- If the server uses only IP multicast for event transmission over UDP the SubscribeEventgroup entry does not need to reference a UDP Endpoint Option.
+>
+>&#8194;&#8194;&#8195;- If the server transmits initial events for an Eventgroup the SubscribeEventgroup entry shall reference an according Endpoint Option because of "The initial events shall be transported using unicast from Server to Client".
+>
+>&#8194;&#8194;&#8195;- If a client service subscribes with an Multicast Option (client service multicast endpoint) and the server transmit initial.
+
+>&#8194;&#8195;When receiving a SubscribeEventgroup or StopSubscribeEventgroup the Service ID, Instance ID, Eventgroup ID, and Major Version shall match exactly to the configured values to identify an Eventgroup of a Service Instance.
+>
+>&#8194;&#8195;If the server receives a Subscribe Eventgroup entry without a UDP Endpoint Option and the MULTICAST_THRESHOLD for the Eventgroup is not configured with value 1 then SubscribeEventGroupNack shall be sent back to the client.
 
 #### 3.2.5.2 &#8194;Stop Subscribe Eventgroup Entry
 
+>&#8194;&#8195;The Stop Subscribe Eventgroup entry type shall be used to stop subscribing to eventgroups.
 
+>&#8194;&#8195;Stop Subscribe Eventgroup entries shall set the entry fields exactly like the Subscribe Eventgroup entry they are stopping, except:
+>
+>&#8194;&#8194;&#8195;- TTL shall be set to 0x000000.
+
+>&#8194;&#8195;A Stop Subscribe Eventgroup Entry shall reference the same options the Subscribe Eventgroup Entry referenced. This includes but is not limited to Endpoint and Configuration options.
 
 #### 3.2.5.3 &#8194;Subscribe Eventgroup Acknowledgement (Subscribe Eventgroup Ack) Entry
 
+>&#8194;&#8195;The Subscribe Eventgroup Acknowledgment entry type shall be used to indicate that Subscribe Eventgroup entry was accepted.
 
+>&#8194;&#8195;Subscribe Eventgroup Acknowledgment entries shall set the entry fields in the following way:
+>
+>&#8194;&#8194;&#8195;- Type shall be set to 0x07 (SubscribeEventgroupAck).
+>
+>&#8194;&#8194;&#8195;- Service ID, Instance ID, Major Version, Eventgroup ID, TTL, Reserved and Counter shall be the same value as in the Subscribe Eventgroup that is being answered.
+
+>&#8194;&#8195;Subscribe Eventgroup Ack entries referencing events and notification events that are transported via multicast shall reference an IPv4 Multicast Option and/or and IPv6 Multicast Option. The Multicast Options state to which Multicast address and port the events and notification events will be sent to.
+>
+>&#8194;&#8195;When receiving a SubscribeEventgroupAck or SubscribeEventgroupNack the Service ID, Instance ID, Eventgroup ID, and Major Version shall match exactly to the corresponding SubscribeEventgroup Entry to identify an Eventgroup of a Service Instance.
 
 #### 3.2.5.4 &#8194;Subscribe Eventgroup Negative Acknowledgement (Subscribe Eventgroup Nack) Entry
 
+>&#8194;&#8195;The Subscribe Eventgroup Negative Acknowledgment entry type shall be used to indicate that Subscribe Eventgroup entry was NOT accepted.
 
+>&#8194;&#8195;Subscribe Eventgroup Negative Acknowledgment entries shall set the entry fields in the following way:
+>
+>&#8194;&#8194;&#8195;- Type shall be set to 0x07 (SubscribeEventgroupAck).
+>
+>&#8194;&#8194;&#8195;- Service ID, Instance ID, Major Version, Eventgroup ID, Counter, and Reserved shall be the same value as in the Subscribe that is being answered.
+>
+>&#8194;&#8194;&#8195;- The TTL shall be set to 0x000000.
+
+>&#8194;&#8195;Reasons to not accept a Subscribe Eventgroup include (but are not limited to):
+>
+>&#8194;&#8194;&#8195;- Combination of Service ID, Instance ID, Eventgroup ID, and Major Version is unknown
+>
+>&#8194;&#8194;&#8195;- Required TCP-connection was not opened by client
+>
+>&#8194;&#8194;&#8195;- Problems with the references options occurred
+>
+>&#8194;&#8194;&#8195;- Resource problems at the Server
+>
+>&#8194;&#8194;&#8195;- Security association not yet established
+
+>&#8194;&#8195;When the client receives a SubscribeEventgroupNack asanswer on a SubscribeEventgroup for which a TCP connection is required, the client shall check the TCP connection and shall restart the TCP connection if needed.
+>
+>&#8194;&#8195;involves checking the state of the network security protocol, Rational:
+>
+>&#8194;&#8194;&#8195;- The server might have lost the TCP connection and the client has not.
+>
+>&#8194;&#8194;&#8195;- Checking the TCP connection might include the following:
+>
+>&#8194;&#8195;&#8195;1. Checking whether data is received for e.g. other Eventgroups.
+>
+>&#8194;&#8195;&#8195;2. Sending out a Magic Cookie message and waiting for the TCP ACK.
+>
+>&#8194;&#8195;&#8195;3. Reestablishing the TCP connection.
+
+### 3.2.6 &#8194;Usage of Options in Entries
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Allowed_Option_Types_for_Entry_Types.png width="640px">
+
+### 3.2.7 &#8194;Endpoint Handling for Services and Events
+
+>&#8194;&#8195;**The Service Discovery shall overwrite IP Addresses and Port Numbers with those transported in Endpoint and Multicast Options** if the statically configured values are different from those in these options.（静态配置数值与 Option 不匹配）
+>
+>&#8194;&#8195;The IP addresses and port numbers of the Endpoint Options shall also be used for transporting events and notification events.
+>
+>&#8194;&#8195;In case of UDP the endpoint option shall be used for the source address and the source port of the events and notification events, it is also the address the client can send method requests to.
+>
+>&#8194;&#8195;In case of TCP the endpoint option shall be used for the IP address and port the client needs to open a TCP connection in order to receive events using TCP.
+>
+>&#8194;&#8195;SOME/IP shall allow services to use UDP and TCP at the same time.
+>
+>&#8194;&#8195;Which message is sent by which underlying transport protocol shall be determined by configuration: A Service can use UDP and TCP endpoints at the same time. But per element of the service it shall to be configured whether TCP or UDP is used.
+>
+>&#8194;&#8195;It needs to be restricted in the configuration which methods and which events are provided over TCP/UDP. **This also means that the same event can not be provided over TCP and UDP.**
+
+#### 3.2.7.1 &#8194;Service Endpoints
+
+>&#8194;&#8195;The referenced Endpoint Options of the Offer Service entries denotes the
+>
+>&#8194;&#8194;&#8195;- IP Address and Port Numbers the service instance is reachable at the server.
+>
+>&#8194;&#8195;&#8195;- IP Address and Port Numbers the service instance sends the events from.（OfferService Entry 的 Options 中的 IP 和 Port 表示是 Server 端所使用的）
+
+>&#8194;&#8195;Events of this service instance shall not be sent from any other Endpoints than those given in the Endpoint Options of the Offer Service entries.
+>
+>&#8194;&#8195;If an ECU offers multiple service instances, SOME/IP messages of these service instances shall be differentiated by the information transported in the Endpoint Options referenced by the Offer Service entries.（多个服务实例通过 OfferService Entry 中的 Endpoint Options 进行区分）
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Service_Endpoint_Example.png width="640px">
+
+#### 3.2.7.2 &#8194;Eventgroup Endpoints
+
+>&#8194;&#8195;The Endpoint Options referenced in the Subscribe Eventgroup entries shall also be used to send unicast UDP or TCP SOME/IP events for this Service Instance.
+>
+>&#8194;&#8195;Thus the Endpoint Options referenced in the Subscribe Eventgroup entries are the IP Address and the Port Numbers on the client side.（Subscribe Eventgroup Entry 的 Options 中的 IP 和 Port 表示是 Client 端所使用的）
+>
+>&#8194;&#8195;TCP events are transported using the TCP connection the client has opened to the server before sending the Subscribe Eventgroup entry.
+>
+>&#8194;&#8195;The initial events shall be transported using unicast from Server to Client.（初始事件应使用单播）
+>
+>&#8194;&#8195;Subscribe Eventgroup Ack entries shall reference up to 1 Multicast Option for the Internet Protocol used (IPv4 or IPv6).（SubscribeEventgroupAck Entry 最多引用一个 UDP 多播服务）
+>
+>&#8194;&#8195;The Multicast Option shall be set to UDP as transport protocol.
+>
+>&#8194;&#8195;The client shall open the Endpoint specified in the Multicast Option referenced by the Subscribe Eventgroup Ack entry as fast as possible to not miss multicast events.（Client 端应该尽快开启 SubscribeEventgroupAck Entry 中引用的 Multicast Option 以避免错过多播事件）
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Service_Eventgroup_Example.png width="640px">
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Publish_Subscribe_Example.png width="640px">
+
+### 3.2.8 &#8194;Service Discovery Messages
+
+>&#8194;&#8195;All SD Messages shall be sent to SD_PORT.
+>
+>&#8194;&#8195;SD_PORT shall be used as the source port for SD Unicast/Multicast Messages.
+>
+>&#8194;&#8195;All unicast SD messages should have SD_PORT as destination port unless the SD Endpoint Option defines a different port.
+>
+>&#8194;&#8195;All SD multicast messages shall be sent using the SD_MULTICAST_IP
+>
+>&#8194;&#8195;When receiving Service Discovery messages, the receiver shall ignore Entries of unknown type.
+
+### 3.2.9 &#8194;Service Discovery Communication Behavior
+
+#### 3.2.9.1 &#8194;Startup Behavior
+
+>&#8194;&#8195;For each Service Instance the Service Discovery shall have at least these three phases in regard to sending entries:
+>
+>&#8194;&#8194;&#8195;Initial Wait Phase
+>
+>&#8194;&#8194;&#8195;Repetition Phase
+>
+>&#8194;&#8194;&#8195;Main Phase
+>
+>&#8194;&#8195;An actual implemented state machine will need more than just states for these three phases. E.g. local services can be still down and remote services can be already known (no finds needed anymore).
+
+>&#8194;&#8195;The service discovery shall enter the Initial Wait Phase for a client service instance when the link on the interface needed for this service instance is up and the client service is requested by the application.
+>
+>&#8194;&#8195;The service discovery shall enter the Initial Wait Phase for a server service instance when the link on the interface needed for this service instance is up and the server service is available.
+>
+>&#8194;&#8195;It is possible that the link is up but the service is not yet available on server side.
+>
+>&#8194;&#8195;Systems has started means here the needed applications and possible external sensors and actuators as well. Basically the functionality needed by this service instance has to be ready to offer a service and finding a service is applicable after some application requires it.
+
+&#8194;&#8195;**Initial Wait Phase**
+
+>&#8194;&#8195;The Service Discovery shall wait based on the INITIAL_DELAY after entering the Initial Wait Phase and before sending the first messages for the Service Instance.
+>
+>&#8194;&#8195;INITIAL_DELAY shall be defined as a minimum and a maximum delay. The wait time shall be determined by choosing a random value between the minimum and maximum of INITIAL_DELAY.
+
+&#8194;&#8195;**Repetition Phase**
+
+>&#8194;&#8195;After sending the first message the Repetition Phase of this Service Instance/these Service Instances is entered.
+>
+>&#8194;&#8195;The Service Discovery shall wait in the Repetitions Phase based on REPETITIONS_BASE_DELAY.
+>
+>&#8194;&#8195;After each message sent in the Repetition Phase the delay is doubled.
+>
+>&#8194;&#8195;The Service Discovery shall send out only up to REPETITIONS_MAX entries during the Repetition Phase.
+>
+>&#8194;&#8195;If REPETITIONS_MAX is set to 0, the Repetition Phase shall be skipped and the Main Phase is entered for the Service Instance after the Initial Wait Phase.
+>
+>&#8194;&#8195;Sending Find entries shall be stopped after receiving the corresponding Offer entries by jumping to the Main Phase in which no Find entries are sent.
+
+&#8194;&#8195;**Main Phase**
+
+>&#8194;&#8195;After the Repetition Phase the Main Phase is being entered for a Service Instance.
+>
+>&#8194;&#8195;After entering the Main Phase, the provider shall wait 1*CYCLIC_OFFER_DELAY before sending the first offer entry message.
+>
+>&#8194;&#8195;In the Main Phase Offer Messages shall be sent cyclically if a CYCLIC_OFFER_DELAY is configured.
+>
+>&#8194;&#8195;After a message for a specific Service Instance the Service Discovery waits for 1*CYCLIC_OFFER_DELAY before sending the next message for this Service Instance.
+>
+>&#8194;&#8195;For Find entries (Find Service and Find Eventgroup) no cyclic messages are allowed in Main Phase.
+>
+>&#8194;&#8195;Subscribe EventGroup Entries shall be triggered by Offer entries, which are sent cyclically.
+
+&#8194;&#8195;Service Discovery分为4个阶段：
+
+&#8194;&#8194;&#8195;Down Phase：服务不可用（服务未注册/网络异常）。
+
+&#8194;&#8194;&#8195;Initial Wait Phase：服务初始化阶段，不响应收到的 Find/Offer 报文。
+
+&#8194;&#8194;&#8195;Repetition Phase：重复阶段，按照设置的间隔和次数发送 Find/Offer 报文，到达次数或者收到 Find/Offer 报文后进入 Main Phase。
+
+&#8194;&#8194;&#8195;Main Phase：Server定时发送 Offer 报文，而 Client 则响应 Offer 报文（进行订阅回复）。
+
+&#8194;&#8195;**Server 端 SD 状态迁移**
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Server_SD_State.png width="640px">
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Server_SD_State_Flow.png width="640px">
+
+&#8194;&#8195;**Down Phase**：没有调用 Application 的 Offer_service 接口发布服务，服务不可用。
+
+&#8194;&#8195;**Initial Wait Phase**：
+
+&#8194;&#8194;&#8195;- 调用 Application 的 Offer_Service 接口发布服务。
+
+&#8194;&#8194;&#8195;- 在此阶段，服务处于初始化的阶段，即使收到外部 Client 的 Find 报文，也不对外发送 Offer 报文。
+
+&#8194;&#8194;&#8195;- 根据配置中的 INITIAL_MIN 和 INITIAL_MAX 配置值，在之间取一个随即值作为 initial phase 阶段的具体时长，如果想要固定这个时长，就将 INITIAL_MIN 和 INITIAL_MAX 配置为同一个值。
+
+&#8194;&#8194;&#8195;- 当到达了 initial phase 阶段的时长后，发送第一帧该服务的 Offer 报文，然后进入 Repetition 阶段。
+
+&#8194;&#8195;**Repetition Phase**：
+
+&#8194;&#8194;&#8195;- 在该阶段，将重复发送 Offer 报文，发送的次数和发送的间隔在配置文件中配置，而且，每一次发送的间隔会比上一次延长一倍。
+
+&#8194;&#8194;&#8195;- 例如，配置了 Repetition 阶段发送 3 次 Offer，发送 DELAY 为 100 ms，则在此阶段的三帧 Offer 报文的发送间隔是：Offer -> 200 ms -> Offer -> 400 ms -> Offer -> 800 ms -> Offer，总发送报文数应该为配置值 + 1。
+
+&#8194;&#8194;&#8195;- 在此阶段收到 Client 发送的 Find 报文，将使用单播通信单独发送 Offer 报文作为回应，这次发送会有一个延时，根据配置中的REQUEST_RESPONSE_DELAY 决定。
+ 
+&#8194;&#8194;&#8195;- 在此阶段收到 Client 发送的 Subscribe 报文后，将使用单播通信发送 Subscribe_ACK/NACK 报文进行回复，并且开启订阅 Entry 的 TTL 计时。
+
+&#8194;&#8194;&#8195;- 当到达了 Repetition phase 的时长后，进入 Main 阶段。
+
+&#8194;&#8195;**Main Phase**：
+
+&#8194;&#8194;&#8195;- 在该阶段，将按照配置的周期进行 Offer 报文发送（在 CYCLIC_OFFER_DELAY 配置项中）。
+
+&#8194;&#8194;&#8195;- 在此阶段收到 Client 发送的 Find 报文，将使用单播通信单独发送 Offer 报文作为回应，这次发送会有一个延时，根据配置中的REQUEST_RESPONSE_DELAY 决定。
+ 
+&#8194;&#8194;&#8195;- 在此阶段收到 Client 发送的 Subscribe 报文后，将使用单播通信发送 Subscribe_ACK/NACK 报文进行回复，并且开启订阅 Entry 的 TTL 计时。
+
+&#8194;&#8195;**Client 端 SD 状态迁移**
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Client_SD_State.png width="640px">
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Client_SD_State_Flow.png width="640px">
+
+&#8194;&#8195;**Down Phase**：没有调用 Application 的 Request_service 接口请求服务。
+
+&#8194;&#8195;**Initial Wait Phase**：
+
+&#8194;&#8194;&#8195;- 调用 Application 的 Request_Service 接口请求服务。
+
+&#8194;&#8194;&#8195;- 此阶段的持续时间和 Server 端的 INITIAL 一致，在配置的 INITIAL_MIN 和 INITIAL_MAXV 之间选取随机值作为该阶段的持续时间。
+
+&#8194;&#8194;&#8195;- 在此阶段，如果收到 Server 端发送的 Offer 报文，则直接跳过 Repetition 阶段，进入 Main 阶段。
+
+​&#8194;&#8194;&#8195;-当到达了 initial 阶段的时长后，将发送第一帧 Find 报文。
+
+&#8194;&#8195;**Repetition Phase**：
+
+&#8194;&#8194;&#8195;- 在此阶段，定周期发送 Find 报文，发送次数由配置中的 REPETITIONS_MAX 参数决定，发送的间隔规律和 Server 端 Repetition 阶段 Offer 报文的发送规律一致。
+
+​&#8194;&#8194;&#8195;- 在此阶段，收到 Server 端的 Offer 报文，则进入 Main 阶段。
+
+​&#8194;&#8194;&#8195;- 在此阶段，收到 Server 端的 Stop Offer 报文，则进入 Main 阶段。
+
+​&#8194;&#8194;&#8195;- 当到达 Repetition 阶段的时长后（发送了配置中的 Find 报文次数），进入 Main 阶段。
+
+&#8194;&#8195;**Main Phase**：
+
+&#8194;&#8194;&#8195;- 在这个阶段，主要发送订阅报文/取消订阅报文，并且不是周期发送，而是在收到 Offer / Stop Offer 报文后发送。
+
+&#8194;&#8194;&#8195;- 在此阶段，收到 Server 发送的 Offer 报文，如果 Client 有订阅其中的事件/事件组，则发送 Subscribe 报文。
+
+&#8194;&#8194;&#8195;- 在此阶段，收到 Server 发送的 Stop Offer 报文，如果 Client 有订阅其中的事件/事件组，则发送 Stop Subscribe 报文。
+
+&#8194;&#8195;**设计目的**
+
+&#8194;&#8195;Initial Wait Phase：启动 ECU 的去偏移事件以避免流量突发，并允许 ECU 收集 SD Message 中的多个 Entries。
+
+&#8194;&#8195;Repetition Phase：该阶段用于 Client 和 Server 的快速同步，如果 Client 启动较晚，它能够很快查询到 Server；如果 Server 稍后启动，则也能很快找到 Client；该阶段通过指数级方式增加两帧报文的间隙，以避免过载情况使系统无法同步。
+
+&#8194;&#8195;Main Phase：进入稳定状态，从而通过不再发送 Find Service 以降低数据包速率，并且仅在循环间隔（e.g. 1s）中提供 SD。
+
+#### 3.2.9.2 &#8194;Server Answer Behavior
+
+>&#8194;&#8195;The Service Discovery shall delay answers to entries that were received in multicast SOME/IP-SD messages using the configuration item REQUEST_RESPONSE_DELAY. This is valid for the following two cases:（需要延时的响应机制）
+>
+>&#8194;&#8194;&#8195;Offer entry (unicast or multicast) after received find entry (multicast)（Server：以单播/多播 Offer Entry 响应多播 Find Entry）
+>
+>&#8194;&#8194;&#8195;Subscribe entry (unicast) after received offer entry (multicast)（Client：以单播 Subscribe Entry 响应多播 Offer Entry）
+>
+>&#8194;&#8195;The REQUEST_RESPONSE_DELAY shall not apply（不需要延时的响应机制）
+>
+>&#8194;&#8194;&#8195;- if unicast messages are answered with unicast messages.（以单播报文响应单播报文）
+>
+>&#8194;&#8195;The actual delay shall be randomly chosen between minimum and maximum of REQUEST_RESPONSE_DELAY.
+
+>&#8194;&#8195;For basic implementations all Find Service entries shall be answered with Offer Service entries transported using unicast.（一般情况下，所有的 Find Entry 都会被单播 Offer Entry 应答）
+>
+>&#8194;&#8195;For optimization purpose the following behaviors shall be supported as option:
+>
+>&#8194;&#8194;&#8195;- Find messages received with the Unicast Flag set to 1 in main phase, shall be answered with a unicast response if the latest offer was sent less than 1/2 CYCLIC_OFFER_DELAY ago.
+>
+>&#8194;&#8194;&#8195;- Find messages received with the Unicast Flag set to 1 in main phase, shall be answered with a multicast RESPONSE if the latest offer was sent 1/2 CYCLIC_OFFER_DELAY or longer ago.
+>
+>&#8194;&#8194;&#8195;- Entries received with the unicast flag set to 0, shall not be answered with unicast but ignored.
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Optimization_Answer_Behavior.png width="540px">
+
+#### 3.2.9.3 &#8194;Shutdown Behavior
+
+>&#8194;&#8195;When a server service instance of an ECU is in the Repetition and Main Phase and is being stopped, a Stop Offer Service entry shall be sent out.
+>
+>&#8194;&#8195;When the link goes down for a server service instance in the Initial Wait Phase, Repetition Phase or Main Phase, the service discovery shall enter the Down Phase and reenter into Initial Wait Phase when the link is up again and the service is still available.
+>
+>&#8194;&#8195;When the link goes down for a client service instance in the Initial Wait Phase, Repetition Phase or Main Phase, the service discovery shall enter the Down Phase and reenter into Initial Wait Phase when the link is up again and the service is still available.
+>
+>&#8194;&#8195;When a server sends out a Stop Offer Service entry all subscriptions for this service instance shall be deleted on the server side.
+>
+>&#8194;&#8195;When a client receives a Stop Offer Service entry all subscriptions for this service instance shall be deleted on the client side.
+>
+>&#8194;&#8195;When a client receives a Stop Offer Service entry, the client shall not send out Find Service entries but wait for Offer Service entry or change of status (application, network management, Ethernet link, or similar).
+>
+>&#8194;&#8195;When a client service instance of an ECU is in the Main Phase and is being stopped (i.e. the service instance is released), the SD shall send out Stop Subscribe Eventgroup entries for all subscribed Eventgroups.
+>
+>&#8194;&#8195;When the whole ECUs is being shut down Stop Offer Service entries shall be sent out for all service entries and Stop Subscribe Eventgroup entries for Eventgroups.
+
+#### 3.2.9.4 &#8194;State Machines
+
+&#8194;&#8195;**Server**
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_.png width="540px">
+
+&#8194;&#8195;**Client**
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_.png width="540px">
+
+&#8194;&#8195;**Unicast**
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_.png width="540px">
+
+&#8194;&#8195;**Multicast**
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_.png width="540px">
+
+&#8194;&#8195;**Unicast/Multicast self-adapting**
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_.png width="540px">
+
+#### 3.2.9.5 &#8194;Error Handling
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Error_Handling.png width="640px">
 
 # 4 &#8194;SOME/IP TP Protocol Specification
 
