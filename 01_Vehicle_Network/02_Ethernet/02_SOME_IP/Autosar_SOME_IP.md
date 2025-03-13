@@ -1369,7 +1369,7 @@ After the length field a character sequence with the specified length shall foll
 >
 >&#8194;&#8194;&#8195;- Counter shall be used to differentiate between parallel subscribes to the same eventgroup of the same service (only difference in endpoint). If not used, set to 0x0.
 
->&#8194;&#8195;SubscribeEventgroup entries shall reference options according to the following rules:
+>&#8194;&#8195;SubscribeEventgroup entries shall reference options according to the following rules:
 >
 >&#8194;&#8194;&#8195;- either up to two IPv4 or up to two IPv6 Endpoint Options (one for UDP, one for TCP)
 >
@@ -1481,7 +1481,7 @@ After the length field a character sequence with the specified length shall foll
 >
 >&#8194;&#8195;If an ECU offers multiple service instances, SOME/IP messages of these service instances shall be differentiated by the information transported in the Endpoint Options referenced by the Offer Service entries.（多个服务实例通过 OfferService Entry 中的 Endpoint Options 进行区分）
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Service_Endpoint_Example.png width="640px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Service_Endpoint_Example.png width="580px">
 
 #### 3.2.7.2 &#8194;Eventgroup Endpoints
 
@@ -1499,9 +1499,9 @@ After the length field a character sequence with the specified length shall foll
 >
 >&#8194;&#8195;The client shall open the Endpoint specified in the Multicast Option referenced by the Subscribe Eventgroup Ack entry as fast as possible to not miss multicast events.（Client 端应该尽快开启 SubscribeEventgroupAck Entry 中引用的 Multicast Option 以避免错过多播事件）
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Service_Eventgroup_Example.png width="640px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Service_Eventgroup_Example.png width="580px">
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Publish_Subscribe_Example.png width="640px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Publish_Subscribe_Example.png width="720px">
 
 ### 3.2.8 &#8194;Service Discovery Messages
 
@@ -1583,7 +1583,7 @@ After the length field a character sequence with the specified length shall foll
 
 &#8194;&#8195;**Server 端 SD 状态迁移**
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Server_SD_State.png width="640px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Server_SD_State.png width="580px">
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Server_SD_State_Flow.png width="640px">
 
@@ -1621,7 +1621,7 @@ After the length field a character sequence with the specified length shall foll
 
 &#8194;&#8195;**Client 端 SD 状态迁移**
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Client_SD_State.png width="640px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Client_SD_State.png width="580px">
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Client_SD_State_Flow.png width="640px">
 
@@ -1711,27 +1711,33 @@ After the length field a character sequence with the specified length shall foll
 
 &#8194;&#8195;**Server**
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_Server.png width="540px">
 
 &#8194;&#8195;**Client**
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_Client.png width="540px">
 
 &#8194;&#8195;**Unicast**
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_Unicast.png width="540px">
 
 &#8194;&#8195;**Multicast**
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_Multicast.png width="540px">
 
 &#8194;&#8195;**Unicast/Multicast self-adapting**
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_Unicast_Multicast.png width="540px">
 
 #### 3.2.9.5 &#8194;Error Handling
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Error_Handling.png width="640px">
+
+### 3.2.10 &#8194;Non-SOME/IP protocols with SOME/IP-SD
+
+### 3.2.11 &#8194;Publish/Subscribe with SOME/IP and SOME/IP-SD
+
+### 3.2.12 &#8194;Reserved and special identifiers for SOME/IP and SOME/IP-SD.
 
 # 4 &#8194;SOME/IP TP Protocol Specification
 
