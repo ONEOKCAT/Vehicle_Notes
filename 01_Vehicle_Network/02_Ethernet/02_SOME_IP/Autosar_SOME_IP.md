@@ -1505,7 +1505,7 @@ After the length field a character sequence with the specified length shall foll
 
 ### 3.2.8 &#8194;Service Discovery Messages
 
->&#8194;&#8195;All SD Messages shall be sent to SD_PORT.
+>&#8194;&#8195;All SD Messages shall be sent to SD_PORT, **it is a UDP Port for SD Messages (30490 as default)**.
 >
 >&#8194;&#8195;SD_PORT shall be used as the source port for SD Unicast/Multicast Messages.
 >
@@ -1735,9 +1735,15 @@ After the length field a character sequence with the specified length shall foll
 
 ### 3.2.10 &#8194;Non-SOME/IP protocols with SOME/IP-SD
 
+
+
 ### 3.2.11 &#8194;Publish/Subscribe with SOME/IP and SOME/IP-SD
 
-### 3.2.12 &#8194;Reserved and special identifiers for SOME/IP and SOME/IP-SD.
+
+
+### 3.2.12 &#8194;Reserved and special identifiers for SOME/IP and SOME/IP-SD
+
+
 
 # 4 &#8194;SOME/IP TP Protocol Specification
 
