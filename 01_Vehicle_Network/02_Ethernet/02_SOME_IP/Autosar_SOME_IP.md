@@ -1711,23 +1711,23 @@ After the length field a character sequence with the specified length shall foll
 
 &#8194;&#8195;**Server**
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_Server.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_Server.png width="720px">
 
 &#8194;&#8195;**Client**
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_Client.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_Client.png width="720px">
 
 &#8194;&#8195;**Unicast**
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_Unicast.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_Unicast.png width="720px">
 
 &#8194;&#8195;**Multicast**
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_Multicast.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_Multicast.png width="720px">
 
 &#8194;&#8195;**Unicast/Multicast self-adapting**
 
-<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_Unicast_Multicast.png width="540px">
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-State_Machines_Unicast_Multicast.png width="720px">
 
 #### 3.2.9.5 &#8194;Error Handling
 
