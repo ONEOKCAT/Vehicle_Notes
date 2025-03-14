@@ -1691,7 +1691,7 @@ After the length field a character sequence with the specified length shall foll
 
 #### 3.2.9.3 &#8194;Shutdown Behavior
 
->&#8194;&#8195;When a server service instance of an ECU is in the Repetition and Main Phase and is being stopped, a Stop Offer Service entry shall be sent out.
+>&#8194;&#8195;When a server service instance of an ECU is in the Repetition and Main Phase and is being stopped, a Stop Offer Service entry shall be sent out.
 >
 >&#8194;&#8195;When the link goes down for a server service instance in the Initial Wait Phase, Repetition Phase or Main Phase, the service discovery shall enter the Down Phase and reenter into Initial Wait Phase when the link is up again and the service is still available.
 >
@@ -1841,7 +1841,7 @@ After the length field a character sequence with the specified length shall foll
 >
 >&#8194;&#8195;If a subscription was already valid and is updated by a Subscribe Eventgroup entry, no initial events shall be sent.
 >
->&#8194;&#8195;Receiving Stop Subscribe / Subscribe combinations trigger initial events of field notifiers.
+>&#8194;&#8195;Receiving Stop Subscribe / Subscribe combinations trigger initial events of field notifiers.
 
 &#8194;&#8195;**Publish/Subscribe with link loss at client**
 
