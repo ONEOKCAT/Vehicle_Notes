@@ -1251,7 +1251,7 @@ After the length field a character sequence with the specified length shall foll
 
 #### 3.2.3.9 &#8194;IPv6 SD Endpoint Option
 
-&#8194;&#8195;其他描述可参考 # [3.2.3.8](#3237-IPv4-SD-Endpoint-Option)
+&#8194;&#8195;其他描述可参考 # [3.2.3.8](#3238-IPv4-SD-Endpoint-Option)
 
 >&#8194;&#8195;The Format of the IPv6 SD Endpoint Option shall be as follows:
 >
