@@ -102,11 +102,11 @@
 
 &#8194;&#8195;**SOA 和 SOME/IP 的联系**
 
-&#8194;&#8194;&#8195;SOA 设计的是“服务”架构，包含了服务（应用程序）和可调用接口；SOME/IP 是协议，打包了“服务接口”，也就是应用程序的对外接口。
+&#8194;&#8194;&#8195;- SOA 设计的是“服务”架构，包含了服务（应用程序）和可调用接口；SOME/IP 是协议，打包了“服务接口”，也就是应用程序的对外接口。
 
-&#8194;&#8194;&#8195;即，SOA 设计内容中的接口部分，会通过 SOME/IP 传输实现，可以将 SOME/IP 视为 SOA 的中间件。
+&#8194;&#8194;&#8195;- 即，SOA 设计内容中的接口部分，会通过 SOME/IP 传输实现，可以将 SOME/IP 视为 SOA 的中间件。
 
-&#8194;&#8194;&#8195;注：由于 SOME/IP 本身也是一种面向服务的协议，所以一般认为 SOME/IP 只不过是一种实现 SOA 可行的协议选择；即，可以通过 SOME/IP 用来实现 SOA，但 SOA 的实现却不一定非得用 SOME/IP。
+&#8194;&#8194;&#8195;- 注：由于 SOME/IP 本身也是一种面向服务的协议，所以一般认为 SOME/IP 只不过是一种实现 SOA 可行的协议选择；即，可以通过 SOME/IP 用来实现 SOA，但 SOA 的实现却不一定非得用 SOME/IP。
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP-SOA_Structure1.png width="540px">
 
@@ -150,11 +150,11 @@
 >
 >&#8194;&#8195;**Fields are combinations of one or more of the following three:**
 >
->&#8194;&#8194;&#8195;a notifier which sends data on change from the provider to the subscribers.
+>&#8194;&#8194;&#8195;- a notifier which sends data on change from the provider to the subscribers.
 >
->&#8194;&#8194;&#8195;a getter which can be called by the subscriber to explicitly query the provider for the value.
+>&#8194;&#8194;&#8195;- a getter which can be called by the subscriber to explicitly query the provider for the value.
 >
->&#8194;&#8194;&#8195;a setter which can be called by the subscriber when it wants to change the value on provider side.
+>&#8194;&#8194;&#8195;- a setter which can be called by the subscriber when it wants to change the value on provider side.
 
 &#8194;&#8195;SOME/IP 协议同样定义了三种**通信机制**：
 
@@ -168,11 +168,11 @@
 
 &#8194;&#8194;&#8195;针对不同用例，常见的策略包括以下：
 
-&#8194;&#8194;&#8195;- 周期性更新 / Cyclic update：按固定周期更新数据，e.g. every 100 ms for safety relevant messages with Alive.
+&#8194;&#8195;&#8195;- 周期性更新 / Cyclic update：按固定周期更新数据，e.g. every 100 ms for safety relevant messages with Alive.
 
-&#8194;&#8194;&#8195;- 变化性更新 / Update on change：只要数值发生改变就会更新数据，e.g. door open.
+&#8194;&#8195;&#8195;- 变化性更新 / Update on change：只要数值发生改变就会更新数据，e.g. door open.
 
-&#8194;&#8194;&#8195;- 超限性更新 / Epsilon change：当前数据与上一轮数据的差值大于某个设定值时，进行更新。"This concept may be adaptive, i.e. the prediction is based on a history; thus, only when the difference between prediction and current value is greater than epsilon an update is transmitted."
+&#8194;&#8195;&#8195;- 超限性更新 / Epsilon change：当前数据与上一轮数据的差值大于某个设定值时，进行更新。"This concept may be adaptive, i.e. the prediction is based on a history; thus, only when the difference between prediction and current value is greater than epsilon an update is transmitted."
 
 >&#8194;&#8194;SOME/IP is used only for transporting the updated value and not for the publishing and subscription mechanisms. These mechanisms are implemented by SOME/IP-SD.
 
@@ -200,13 +200,13 @@
 
 &#8194;&#8195;**Method vs Field vs Event 解析**
 
-&#8194;&#8194;&#8195;Method，强调的是功能的调用，例如控制空调的打开或者关闭；
+&#8194;&#8194;&#8195;- Method，强调的是功能的调用，例如控制空调的打开或者关闭；
 
-&#8194;&#8194;&#8195;Event，本质就是事件，其特点在于可以不涉及任何参数，例如空调出现某个故障或切换到某个模式；
+&#8194;&#8194;&#8195;- Event，本质就是事件，其特点在于可以不涉及任何参数，例如空调出现某个故障或切换到某个模式；
 
-&#8194;&#8194;&#8195;Field 与前面两种方式最大的区别在于，其核心是对具体数据的操控，一般来说，这个数据是一个具有实际意义的变量；相比之下，Method 和 Event 主要目的在于执行某些动作，虽然这些动作可能会涉及到对于变量的操控，但在设计时，将变量操作设计为 Field 类型，或许更合理。例如，设定/获取空调当前的温度值。
+&#8194;&#8194;&#8195;- Field 与前面两种方式最大的区别在于，其核心是对具体数据的操控，一般来说，这个数据是一个具有实际意义的变量；相比之下，Method 和 Event 主要目的在于执行某些动作，虽然这些动作可能会涉及到对于变量的操控，但在设计时，将变量操作设计为 Field 类型，或许更合理。例如，设定/获取空调当前的温度值。
 
-&#8194;&#8194;&#8195;此外，Notifier 在订阅之后应立即返回一个初始值，Event 不涉及。
+&#8194;&#8194;&#8195;- 此外，Notifier 在订阅之后应立即返回一个初始值，Event 不涉及。
 
 >&#8194;&#8194;&#8195;A field represents a status and has a valid value. The consumers subscribing for the field instantly after subscription get the field value as an initial event.
 >
@@ -844,25 +844,25 @@
 >
 >&#8194;&#8195;This means there shall be separate counters for sending and receiving.
 >
->&#8194;&#8195;Sending
+>&#8194;&#8195;**Sending**
 >
->&#8194;&#8194&#8195;There shall be a counter for multicast.
+>&#8194;&#8194;&#8195;- There shall be a counter for multicast.
 >
->&#8194;&#8194&#8195;There shall be a separate counter for each peer for unicast.
+>&#8194;&#8194;&#8195;- There shall be a separate counter for each peer for unicast.
 >
->&#8194;&#8195;Receiving
+>&#8194;&#8195;**Receiving**
 >
->&#8194;&#8194;&#8195;There shall be a counter for each peer for multicast.
+>&#8194;&#8194;&#8195;- There shall be a counter for each peer for multicast.
 >
->&#8194;&#8194;&#8195;There shall be a counter for each peer for unicast.
+>&#8194;&#8194;&#8195;- There shall be a counter for each peer for unicast.
 
 >&#8194;&#8195;The detection of a reboot shall be done as follows (with mthe new values of the current packet from the communication partner and old the last value received before):
 >
->&#8194;&#8194;&#8195;if old.reboot==0 and new.reboot==1 then Reboot detected
+>&#8194;&#8194;&#8195;- if old.reboot==0 and new.reboot==1 then Reboot detected
 >
->&#8194;&#8194;&#8195;OR
+>&#8194;&#8194;&#8195;- OR
 >
->&#8194;&#8194;&#8195;if old.reboot==1 and new.reboot==1 and old.session_id>=new.session_id then Reboot detected.
+>&#8194;&#8194;&#8195;- if old.reboot==1 and new.reboot==1 and old.session_id>=new.session_id then Reboot detected.
 
 &#8194;&#8195;**Unicast Flag**
 
@@ -886,53 +886,53 @@
 
 >&#8194;&#8195;A Service Entry Type shall be 16 Bytes of size and include the following fields in this order:
 >
->&#8194;&#8194;&#8195;Type Field [uint8]: encodes FindService (0x00), OfferService (0x01) and StopOfferService (0x01)
+>&#8194;&#8194;&#8195;- Type Field [uint8]: encodes FindService (0x00), OfferService (0x01) and StopOfferService (0x01)
 >
->&#8194;&#8194;&#8195;Index First Option Run [uint8]: Index of this runs first option in the option array.
+>&#8194;&#8194;&#8195;- Index First Option Run [uint8]: Index of this runs first option in the option array.
 >
->&#8194;&#8194;&#8195;Index Second Option Run [uint8]: Index of this runs second option in the option array.
+>&#8194;&#8194;&#8195;- Index Second Option Run [uint8]: Index of this runs second option in the option array.
 >
->&#8194;&#8194;&#8195;Number of Options 1 [uint4]: Describes the number of options the first option run uses.
+>&#8194;&#8194;&#8195;- Number of Options 1 [uint4]: Describes the number of options the first option run uses.
 >
->&#8194;&#8194;&#8195;Number of Options 2 [uint4]: Describes the number of options the second option run uses.
+>&#8194;&#8194;&#8195;- Number of Options 2 [uint4]: Describes the number of options the second option run uses.
 >
->&#8194;&#8194;&#8195;Service-ID [uint16]: Describes the Service ID of the Service or Service-Instance this entry is concerned with.
+>&#8194;&#8194;&#8195;- Service-ID [uint16]: Describes the Service ID of the Service or Service-Instance this entry is concerned with.
 >
->&#8194;&#8194;&#8195;Instance ID [uint16]: **Describes the Service Instance ID of the Service Instance this entry is concerned with or is set to 0xFFFF if all service instances of a service are meant.**
+>&#8194;&#8194;&#8195;- Instance ID [uint16]: **Describes the Service Instance ID of the Service Instance this entry is concerned with or is set to 0xFFFF if all service instances of a service are meant.**
 >
->&#8194;&#8194;&#8195;Major Version [uint8]: Encodes the major version of the service (instance).
+>&#8194;&#8194;&#8195;- Major Version [uint8]: Encodes the major version of the service (instance).
 >
->&#8194;&#8194;&#8195;TTL [uint24]: Describes the lifetime of the entry in seconds.
+>&#8194;&#8194;&#8195;- TTL [uint24]: Describes the lifetime of the entry in seconds.
 >
->&#8194;&#8194;&#8195;Minor Version [uint32]: Encodes the minor version of the service.
+>&#8194;&#8194;&#8195;- Minor Version [uint32]: Encodes the minor version of the service.
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Service_Entry_Type.png width="640px">
 
 >&#8194;&#8195;An Eventgroup Entry (Type 2) shall be 16 Bytes of size and include the following fields in this order:
 >
->&#8194;&#8194;&#8195;Type Field [uint8]: encodes SubscribeEventgroup (0x06), StopSubscribeEventgroup (0x06), SubscribeAck (0x07) and SubscribeEventgroupNack (0x07).
+>&#8194;&#8194;&#8195;- Type Field [uint8]: encodes SubscribeEventgroup (0x06), StopSubscribeEventgroup (0x06), SubscribeAck (0x07) and SubscribeEventgroupNack (0x07).
 >
->&#8194;&#8194;&#8195;Index of first option run [uint8]: Index of this runs first option in the option array.
+>&#8194;&#8194;&#8195;- Index of first option run [uint8]: Index of this runs first option in the option array.
 >
->&#8194;&#8194;&#8195;Index of second option run [uint8]: Index of this runs second option in the option array.
+>&#8194;&#8194;&#8195;- Index of second option run [uint8]: Index of this runs second option in the option array.
 >
->&#8194;&#8194;&#8195;Number of Options 1 [uint4]: Describes the number of options the first option run uses.
+>&#8194;&#8194;&#8195;- Number of Options 1 [uint4]: Describes the number of options the first option run uses.
 >
->&#8194;&#8194;&#8195;Number of Options 2 [uint4]: Describes the number of options the second option run uses.
+>&#8194;&#8194;&#8195;- Number of Options 2 [uint4]: Describes the number of options the second option run uses.
 >
->&#8194;&#8194;&#8195;Service-ID [uint16]: Describes the Service ID of the Service or Service Instance this entry is concerned with.
+>&#8194;&#8194;&#8195;- Service-ID [uint16]: Describes the Service ID of the Service or Service Instance this entry is concerned with.
 >
->&#8194;&#8194;&#8195;Instance ID [uint16]: **Describes the Service Instance ID of the Service Instancethis entry is concerned with. The Service Instance ID shall not be set to 0xFFFF for any Instance.**
+>&#8194;&#8194;&#8195;- Instance ID [uint16]: **Describes the Service Instance ID of the Service Instancethis entry is concerned with. The Service Instance ID shall not be set to 0xFFFF for any Instance.**
 >
->&#8194;&#8194;&#8195;Major Version [uint8]: Encodes the major version of the service instance this eventgroup is part of.
+>&#8194;&#8194;&#8195;- Major Version [uint8]: Encodes the major version of the service instance this eventgroup is part of.
 >
->&#8194;&#8194;&#8195;TTL [uint24]: Descibes the lifetime of the entry in seconds.
+>&#8194;&#8194;&#8195;- TTL [uint24]: Descibes the lifetime of the entry in seconds.
 >
->&#8194;&#8194;&#8195;Reserved [uint12]: Shall be set to 0x000.
+>&#8194;&#8194;&#8195;- Reserved [uint12]: Shall be set to 0x000.
 >
->&#8194;&#8194;&#8195;Counter [uint4]: **Is used to differentiate identical Subscribe Eventgroups of the same subscriber. Set to 0x0 if not used.**
+>&#8194;&#8194;&#8195;- Counter [uint4]: **Is used to differentiate identical Subscribe Eventgroups of the same subscriber. Set to 0x0 if not used.**
 >
->&#8194;&#8194;&#8195;Eventgroup ID [uint16]: Transports the ID of an Eventgroup.
+>&#8194;&#8194;&#8195;- Eventgroup ID [uint16]: Transports the ID of an Eventgroup.
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Eventgroup_Entry_Type.png width="640px">
 
@@ -962,13 +962,13 @@
 
 >&#8194;&#8195;Using the following fields of the entries, options are referenced by the entries:
 >
->&#8194;&#8194;&#8195;Index First Option Run: Index into array of options for first option run. Index 0 means first of SOME/IP-SD packet.
+>&#8194;&#8194;&#8195;- Index First Option Run: Index into array of options for first option run. Index 0 means first of SOME/IP-SD packet.
 >
->&#8194;&#8194;&#8195;Index Second Option Run: Index into array of options for second option run. Index 0 means first of SOME/IP-SD packet.
+>&#8194;&#8194;&#8195;- Index Second Option Run: Index into array of options for second option run. Index 0 means first of SOME/IP-SD packet.
 >
->&#8194;&#8194;&#8195;Number of Options 1: Length of first option run. Length 0 means no option in option run.
+>&#8194;&#8194;&#8195;- Number of Options 1: Length of first option run. Length 0 means no option in option run.
 >
->&#8194;&#8194;&#8195;Number of Options 2: Length of second option run. Length 0 means no option in option run.
+>&#8194;&#8194;&#8195;- Number of Options 2: Length of second option run. Length 0 means no option in option run.
 
 >&#8194;&#8195;Two different option runs exist: First Option Run and Second Option Run.
 >
@@ -988,13 +988,13 @@
 
 >&#8194;&#8195;In order to identify the option type every option shall start with:
 >
->&#8194;&#8194;&#8195;Length [uint16]: Specifies the length of the option in Bytes. （不包含 Length 和 Type 字段所占字节）
+>&#8194;&#8194;&#8195;- Length [uint16]: Specifies the length of the option in Bytes. （不包含 Length 和 Type 字段所占字节）
 >
->&#8194;&#8194;&#8195;Type [uint8]: Specifying the type of the option.
+>&#8194;&#8194;&#8195;- Type [uint8]: Specifying the type of the option.
 >
->&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Specifies if the option can be discarded. The discardable flag shall be set to 1 if the option can be discarded by a receiving ECU that does not support this option.
+>&#8194;&#8194;&#8195;- Discardable Flag [1 bit]: Specifies if the option can be discarded. The discardable flag shall be set to 1 if the option can be discarded by a receiving ECU that does not support this option.
 >
->&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>&#8194;&#8194;&#8195;- Bit 1 to bit 7 are reserved and shall be 0.
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Option_Format.png width="640px">
 
@@ -1028,15 +1028,15 @@
 
 >&#8194;&#8195;The format of the Configuration Option shall be as follows:
 >
->&#8194;&#8194;&#8195;Length [uint16]: Shall be set to the total number of bytes occupied by the configuration option, excluding the 16 bit length field and the 8 bit type flag.
+>&#8194;&#8194;&#8195;- Length [uint16]: Shall be set to the total number of bytes occupied by the configuration option, excluding the 16 bit length field and the 8 bit type flag.
 >
->&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x01.
+>&#8194;&#8194;&#8195;- Type [uint8]: Shall be set to 0x01.
 >
->&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 1 if the Option can be discarded by the receiver.
+>&#8194;&#8194;&#8195;- Discardable Flag [1 bit]: Shall be set to 1 if the Option can be discarded by the receiver.
 >
->&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>&#8194;&#8194;&#8195;- Bit 1 to bit 7 are reserved and shall be 0.
 >
->&#8194;&#8194;&#8195;ConfigurationString [dyn length]: Shall carry the configuration string.
+>&#8194;&#8194;&#8195;- ConfigurationString [dyn length]: Shall carry the configuration string.
 
 >&#8194;&#8195;The Configuration Option shall specify a set of name value-pairs based on the DNS TXT and DNS-SD format.
 >
@@ -1081,17 +1081,17 @@ After the length field a character sequence with the specified length shall foll
 
 >&#8194;&#8195;The Format of the Load Balancing Option shall be as follows:
 >
->&#8194;&#8194;&#8195;Length [uint16]: Shall be set to 0x0005.
+>&#8194;&#8194;&#8195;- Length [uint16]: Shall be set to 0x0005.
 >
->&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x02
+>&#8194;&#8194;&#8195;- Type [uint8]: Shall be set to 0x02
 >
->&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 1 if the Option can be discarded by the receiver.
+>&#8194;&#8194;&#8195;- Discardable Flag [1 bit]: Shall be set to 1 if the Option can be discarded by the receiver.
 >
->&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>&#8194;&#8194;&#8195;- Bit 1 to bit 7 are reserved and shall be 0.
 >
->&#8194;&#8194;&#8195;Priority [uint16]: Carries the Priority of this instance. Lower value means higher priority.
+>&#8194;&#8194;&#8195;- Priority [uint16]: Carries the Priority of this instance. Lower value means higher priority.
 >
->&#8194;&#8194;&#8195;Weight [uint16]: Carries the Weight of this instance. Large value means higher probability to be chosen.
+>&#8194;&#8194;&#8195;- Weight [uint16]: Carries the Weight of this instance. Large value means higher probability to be chosen.
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-Load_Balancing_Option.png width="640px">
 
@@ -1101,21 +1101,21 @@ After the length field a character sequence with the specified length shall foll
 
 >&#8194;&#8195;The Format of the IPv4 Endpoint Option shall be as follows:
 >
->&#8194;&#8194;&#8195;Length [uint16]: Shall be set to 0x0009.
+>&#8194;&#8194;&#8195;- Length [uint16]: Shall be set to 0x0009.
 >
->&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x04.
+>&#8194;&#8194;&#8195;- Type [uint8]: Shall be set to 0x04.
 >
->&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 0.
+>&#8194;&#8194;&#8195;- Discardable Flag [1 bit]: Shall be set to 0.
 >
->&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>&#8194;&#8194;&#8195;- Bit 1 to bit 7 are reserved and shall be 0.
 >
->&#8194;&#8194;&#8195;IPv4-Address [uint32]: Shall transport the unicast IP-Address as four Bytes.
+>&#8194;&#8194;&#8195;- IPv4-Address [uint32]: Shall transport the unicast IP-Address as four Bytes.
 >
->&#8194;&#8194;&#8195;Reserved [uint8]: Shall be set to 0x00.
+>&#8194;&#8194;&#8195;- Reserved [uint8]: Shall be set to 0x00.
 >
->&#8194;&#8194;&#8195;Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol (ISO/OSI layer 4) based on the IANA/IETF types (0x06: TCP, 0x11: UDP).
+>&#8194;&#8194;&#8195;- Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol (ISO/OSI layer 4) based on the IANA/IETF types (0x06: TCP, 0x11: UDP).
 >
->&#8194;&#8194;&#8195;Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the port of the layer 4 protocol.
+>&#8194;&#8194;&#8195;- Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the port of the layer 4 protocol.
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-IPv4_Endpoint_Option.png width="640px">
 
@@ -1135,21 +1135,21 @@ After the length field a character sequence with the specified length shall foll
 
 >&#8194;&#8195;The Format of the IPv6 Endpoint Option shall be as follows:
 >
->&#8194;&#8194;&#8195;Length [uint16]: Shall be set to 0x0015.
+>&#8194;&#8194;&#8195;- Length [uint16]: Shall be set to 0x0015.
 >
->&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x06.
+>&#8194;&#8194;&#8195;- Type [uint8]: Shall be set to 0x06.
 >
->&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 0.
+>&#8194;&#8194;&#8195;- Discardable Flag [1 bit]: Shall be set to 0.
 >
->&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>&#8194;&#8194;&#8195;- Bit 1 to bit 7 are reserved and shall be 0.
 >
->&#8194;&#8194;&#8195;IPv6-Address [uint128]: Shall transport the unicast IP-Address as 16 Bytes.
+>&#8194;&#8194;&#8195;- IPv6-Address [uint128]: Shall transport the unicast IP-Address as 16 Bytes.
 >
->&#8194;&#8194;&#8195;Reserved [uint8]: Shall be set to 0x00.
+>&#8194;&#8194;&#8195;- Reserved [uint8]: Shall be set to 0x00.
 >
->&#8194;&#8194;&#8195;Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol (ISO/OSI layer 4) based on the IANA/IETF types (0x06: TCP, 0x11: UDP).
+>&#8194;&#8194;&#8195;- Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol (ISO/OSI layer 4) based on the IANA/IETF types (0x06: TCP, 0x11: UDP).
 >
->&#8194;&#8194;&#8195;Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the transport layer port(e.g. 30490).
+>&#8194;&#8194;&#8195;- Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the transport layer port(e.g. 30490).
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-IPv6_Endpoint_Option.png width="640px">
 
@@ -1157,35 +1157,35 @@ After the length field a character sequence with the specified length shall foll
 
 >&#8194;&#8195;The IPv4 Multicast Option is either transmitted by the server service (server service multicast endpoint) or by the client service (client service multicast endpoint):
 >
->&#8194;&#8194;&#8195;If it is transmitted by the server service, then a server announces the IPv4 multicast address, the transport layer protocol (ISO/OSI layer 4), and the port number, to where the multicast-events and multicast-notification-events are transmitted to.
+>&#8194;&#8194;&#8195;- If it is transmitted by the server service, then a server announces the IPv4 multicast address, the transport layer protocol (ISO/OSI layer 4), and the port number, to where the multicast-events and multicast-notification-events are transmitted to.
 >
->&#8194;&#8194;&#8195;If it is transmitted by the client service, then a client indicates the IPv4 multicast address, the transport layer protocol (ISO/OSI layer 4), and the port number, where a client expects to receive multicast-events and multicast-notification events.
+>&#8194;&#8194;&#8195;- If it is transmitted by the client service, then a client indicates the IPv4 multicast address, the transport layer protocol (ISO/OSI layer 4), and the port number, where a client expects to receive multicast-events and multicast-notification events.
 
 >&#8194;&#8195;IPv4 Multicast Options shall be referenced by SubscribeEventgroup or by StopSubscribeEventgroup or by SubscribeEventgroupAck entries:
 >
->&#8194;&#8194;&#8195;If it is referenced by a SubscribeEventgroup entry, it describes the client service multicast endpoint (i.e. destination IP address and destination port), where the multicast-events shall be received by the client.
+>&#8194;&#8194;&#8195;- If it is referenced by a SubscribeEventgroup entry, it describes the client service multicast endpoint (i.e. destination IP address and destination port), where the multicast-events shall be received by the client.
 >
->&#8194;&#8194;&#8195;If it is referenced by a StopSubscribeEventgroup entry, it reflects the intent to stop the subscription of a client which has subscribed before via a client service multicast endpoint (i.e. destination IP address and destination port) to the given event group.
+>&#8194;&#8194;&#8195;- If it is referenced by a StopSubscribeEventgroup entry, it reflects the intent to stop the subscription of a client which has subscribed before via a client service multicast endpoint (i.e. destination IP address and destination port) to the given event group.
 >
->&#8194;&#8194;&#8195;If it is referenced by a SubscribeEventgroupAck entry, it describes the server service multicast endpoint (i.e. destination IP address and destination port), where a server shall transmit the multicast-events to.
+>&#8194;&#8194;&#8195;- If it is referenced by a SubscribeEventgroupAck entry, it describes the server service multicast endpoint (i.e. destination IP address and destination port), where a server shall transmit the multicast-events to.
 
 >&#8194;&#8195;The Format of the IPv4 Multicast Option shall be as follows:
 >
->&#8194;&#8194;&#8195;Length [uint16]: Shall be set to 0x0009.
+>&#8194;&#8194;&#8195;- Length [uint16]: Shall be set to 0x0009.
 >
->&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x14.
+>&#8194;&#8194;&#8195;- Type [uint8]: Shall be set to 0x14.
 >
->&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 0.
+>&#8194;&#8194;&#8195;- Discardable Flag [1 bit]: Shall be set to 0.
 >
->&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>&#8194;&#8194;&#8195;- Bit 1 to bit 7 are reserved and shall be 0.
 >
->&#8194;&#8194;&#8195;IPv4-Address [uint32]: Shall transport the multicast IP-Address as four Bytes.
+>&#8194;&#8194;&#8195;- IPv4-Address [uint32]: Shall transport the multicast IP-Address as four Bytes.
 >
->&#8194;&#8194;&#8195;Reserved [uint8]: Shall be set to 0x00.
+>&#8194;&#8194;&#8195;- Reserved [uint8]: Shall be set to 0x00.
 >
->&#8194;&#8194;&#8195;Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol (ISO/OSI layer 4) based on the IANA/IETF types (0x11: UDP).
+>&#8194;&#8194;&#8195;- Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol (ISO/OSI layer 4) based on the IANA/IETF types (0x11: UDP).
 >
->&#8194;&#8194;&#8195;Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the port of the layer 4 protocol.
+>&#8194;&#8194;&#8195;- Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the port of the layer 4 protocol.
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-IPv4_Multicast_Option.png width="640px">
 
@@ -1195,21 +1195,21 @@ After the length field a character sequence with the specified length shall foll
 
 >&#8194;&#8195;The Format of the IPv6 Multicast Option shall be as follows:
 >
->&#8194;&#8194;&#8195;Length [uint16]: Shall be set to 0x0015.
+>&#8194;&#8194;&#8195;- Length [uint16]: Shall be set to 0x0015.
 >
->&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x16.
+>&#8194;&#8194;&#8195;- Type [uint8]: Shall be set to 0x16.
 >
->&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 0.
+>&#8194;&#8194;&#8195;- Discardable Flag [1 bit]: Shall be set to 0.
 >
->&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>&#8194;&#8194;&#8195;- Bit 1 to bit 7 are reserved and shall be 0.
 >
->&#8194;&#8194;&#8195;IPv6-Address [uint128]: Shall transport the multicast IP-Address as 16 Bytes.
+>&#8194;&#8194;&#8195;- IPv6-Address [uint128]: Shall transport the multicast IP-Address as 16 Bytes.
 >
->&#8194;&#8194;&#8195;Reserved [uint8]: Shall be set to 0x00.
+>&#8194;&#8194;&#8195;- Reserved [uint8]: Shall be set to 0x00.
 >
->&#8194;&#8194;&#8195;Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol (ISO/OSI layer 4) based on the IANA/IETF types (0x11: UDP).
+>&#8194;&#8194;&#8195;- Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol (ISO/OSI layer 4) based on the IANA/IETF types (0x11: UDP).
 >
->&#8194;&#8194;&#8195;Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the port of the layer 4 protocol.
+>&#8194;&#8194;&#8195;- Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the port of the layer 4 protocol.
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-IPv6_Multicast_Option.png width="640px">
 
@@ -1221,31 +1221,31 @@ After the length field a character sequence with the specified length shall foll
 
 >&#8194;&#8195;The IPv4 SD Endpoint Option shall be included in any SD message up to 1 time.
 >
->&#8194;&#8195;d The IPv4 SD Endpoint Option shall be the first option in the options array, if existing.
+>&#8194;&#8195;The IPv4 SD Endpoint Option shall be the first option in the options array, if existing.
 >
 >&#8194;&#8195;The IPv4 SD Endpoint Option shall not be referenced by any SD Entry.
 >
 >&#8194;&#8195;If the IPv4 SD Endpoint Option is included in the SD message, the receiving SD Service Instance shall use the content of this option instead of the Source IP Address and Source Port.
 >
->&#8194;&#8194;&#8195;This is important for answering the received SD message (e.g. Offer after Find orSubscribe after Offer or Subscribe Ack after Subscribe) as well as the reboot detection (channel based on SD Endpoint Option and not out addresses).
+>&#8194;&#8194;&#8195;- This is important for answering the received SD message (e.g. Offer after Find orSubscribe after Offer or Subscribe Ack after Subscribe) as well as the reboot detection (channel based on SD Endpoint Option and not out addresses).
 
 >&#8194;&#8195;The Format of the IPv4 SD Endpoint Option shall be as follows:
 >
->&#8194;&#8194;&#8195;Length [uint16]: Shall be set to 0x0009.
+>&#8194;&#8194;&#8195;- Length [uint16]: Shall be set to 0x0009.
 >
->&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x24.
+>&#8194;&#8194;&#8195;- Type [uint8]: Shall be set to 0x24.
 >
->&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 0.
+>&#8194;&#8194;&#8195;- Discardable Flag [1 bit]: Shall be set to 0.
 >
->&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>&#8194;&#8194;&#8195;- Bit 1 to bit 7 are reserved and shall be 0.
 >
->&#8194;&#8194;&#8195;IPv4-Address [uint32]: Shall transport the unicast IP-Address of SOME/IP-SD as four Bytes
+>&#8194;&#8194;&#8195;- IPv4-Address [uint32]: Shall transport the unicast IP-Address of SOME/IP-SD as four Bytes
 >
->&#8194;&#8194;&#8195;Reserved [uint8]: Shall be set to 0x00.
+>&#8194;&#8194;&#8195;- Reserved [uint8]: Shall be set to 0x00.
 >
->&#8194;&#8194;&#8195;Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol of SOME/IP-SD (currently: 0x11 UDP).
+>&#8194;&#8194;&#8195;- Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol of SOME/IP-SD (currently: 0x11 UDP).
 >
->&#8194;&#8194;&#8195;Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the transport layer port of SOME/IP-SD (currently: 30490).
+>&#8194;&#8194;&#8195;- Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the transport layer port of SOME/IP-SD (currently: 30490).
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-IPv4_SD_Endpoint_Option.png width="640px">
 
@@ -1255,21 +1255,21 @@ After the length field a character sequence with the specified length shall foll
 
 >&#8194;&#8195;The Format of the IPv6 SD Endpoint Option shall be as follows:
 >
->&#8194;&#8194;&#8195;Length [uint16]: Shall be set to 0x0015.
+>&#8194;&#8194;&#8195;- Length [uint16]: Shall be set to 0x0015.
 >
->&#8194;&#8194;&#8195;Type [uint8]: Shall be set to 0x26.
+>&#8194;&#8194;&#8195;- Type [uint8]: Shall be set to 0x26.
 >
->&#8194;&#8194;&#8195;Discardable Flag [1 bit]: Shall be set to 0.
+>&#8194;&#8194;&#8195;- Discardable Flag [1 bit]: Shall be set to 0.
 >
->&#8194;&#8194;&#8195;Bit 1 to bit 7 are reserved and shall be 0.
+>&#8194;&#8194;&#8195;- Bit 1 to bit 7 are reserved and shall be 0.
 >
->&#8194;&#8194;&#8195;IPv6-Address [uint128]: Shall transport the unicast IP-Address of SOME/IP-SD as 16 Bytes.
+>&#8194;&#8194;&#8195;- IPv6-Address [uint128]: Shall transport the unicast IP-Address of SOME/IP-SD as 16 Bytes.
 >
->&#8194;&#8194;&#8195;Reserved [uint8]: Shall be set to 0x00.
+>&#8194;&#8194;&#8195;- Reserved [uint8]: Shall be set to 0x00.
 >
->&#8194;&#8194;&#8195;Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol of SOME/IP-SD (currently: 0x11 UDP).
+>&#8194;&#8194;&#8195;- Transport Protocol (L4-Proto) [uint8]: Shall be set to the transport layer protocol of SOME/IP-SD (currently: 0x11 UDP).
 >
->&#8194;&#8194;&#8195;Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the transport layer port of SOME/IP-SD (currently: 30490).
+>&#8194;&#8194;&#8195;- Transport Protocol Port Number (L4-Port) [uint16]: Shall be set to the transport layer port of SOME/IP-SD (currently: 30490).
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMEIP_SD-IPv6_SD_Endpoint_Option.png width="640px">
 
@@ -1475,7 +1475,7 @@ After the length field a character sequence with the specified length shall foll
 >
 >&#8194;&#8194;&#8195;- IP Address and Port Numbers the service instance is reachable at the server.
 >
->&#8194;&#8195;&#8195;- IP Address and Port Numbers the service instance sends the events from.（OfferService Entry 的 Options 中的 IP 和 Port 表示是 Server 端所使用的）
+>&#8194;&#8194;&#8195;- IP Address and Port Numbers the service instance sends the events from.（OfferService Entry 的 Options 中的 IP 和 Port 表示是 Server 端所使用的）
 
 >&#8194;&#8195;Events of this service instance shall not be sent from any other Endpoints than those given in the Endpoint Options of the Offer Service entries.
 >
@@ -1521,11 +1521,11 @@ After the length field a character sequence with the specified length shall foll
 
 >&#8194;&#8195;For each Service Instance the Service Discovery shall have at least these three phases in regard to sending entries:
 >
->&#8194;&#8194;&#8195;Initial Wait Phase
+>&#8194;&#8194;&#8195;- **Initial Wait Phase**
 >
->&#8194;&#8194;&#8195;Repetition Phase
+>&#8194;&#8194;&#8195;- **Repetition Phase**
 >
->&#8194;&#8194;&#8195;Main Phase
+>&#8194;&#8194;&#8195;- **Main Phase**
 >
 >&#8194;&#8195;An actual implemented state machine will need more than just states for these three phases. E.g. local services can be still down and remote services can be already known (no finds needed anymore).
 
@@ -1573,13 +1573,13 @@ After the length field a character sequence with the specified length shall foll
 
 &#8194;&#8195;Service Discovery分为4个阶段：
 
-&#8194;&#8194;&#8195;Down Phase：服务不可用（服务未注册/网络异常）。
+&#8194;&#8194;&#8195;- Down Phase：服务不可用（服务未注册/网络异常）。
 
-&#8194;&#8194;&#8195;Initial Wait Phase：服务初始化阶段，不响应收到的 Find/Offer 报文。
+&#8194;&#8194;&#8195;- Initial Wait Phase：服务初始化阶段，不响应收到的 Find/Offer 报文。
 
-&#8194;&#8194;&#8195;Repetition Phase：重复阶段，按照设置的间隔和次数发送 Find/Offer 报文，到达次数或者收到 Find/Offer 报文后进入 Main Phase。
+&#8194;&#8194;&#8195;- Repetition Phase：重复阶段，按照设置的间隔和次数发送 Find/Offer 报文，到达次数或者收到 Find/Offer 报文后进入 Main Phase。
 
-&#8194;&#8194;&#8195;Main Phase：Server定时发送 Offer 报文，而 Client 则响应 Offer 报文（进行订阅回复）。
+&#8194;&#8194;&#8195;- Main Phase：Server定时发送 Offer 报文，而 Client 则响应 Offer 报文（进行订阅回复）。
 
 &#8194;&#8195;**Server 端 SD 状态迁移**
 
@@ -1667,9 +1667,9 @@ After the length field a character sequence with the specified length shall foll
 
 >&#8194;&#8195;The Service Discovery shall delay answers to entries that were received in multicast SOME/IP-SD messages using the configuration item REQUEST_RESPONSE_DELAY. This is valid for the following two cases:（需要延时的响应机制）
 >
->&#8194;&#8194;&#8195;Offer entry (unicast or multicast) after received find entry (multicast)（Server：以单播/多播 Offer Entry 响应多播 Find Entry）
+>&#8194;&#8194;&#8195;- Offer entry (unicast or multicast) after received find entry (multicast)（Server：以单播/多播 Offer Entry 响应多播 Find Entry）
 >
->&#8194;&#8194;&#8195;Subscribe entry (unicast) after received offer entry (multicast)（Client：以单播 Subscribe Entry 响应多播 Offer Entry）
+>&#8194;&#8194;&#8195;- Subscribe entry (unicast) after received offer entry (multicast)（Client：以单播 Subscribe Entry 响应多播 Offer Entry）
 >
 >&#8194;&#8195;The REQUEST_RESPONSE_DELAY shall not apply（不需要延时的响应机制）
 >
@@ -1827,7 +1827,7 @@ After the length field a character sequence with the specified length shall foll
 
 >&#8194;&#8195;The client shall wait for the Subscribe Eventgroup Ack entry acknowledging a Subscribe Eventgroup entry. If this Subscribe Eventgroup Ack entry does not arrive before the next Subscribe Eventgroup entry is sent, the client shall do the following:
 >
->&#8194;&#8194;&#8195;Send a Stop Subscribe Eventgroup entry and a Subscribe Eventgroup entry in the same SOME/IP-SD message the Subscribe Eventgroup entry would have been sent with.
+>&#8194;&#8194;&#8195;- Send a Stop Subscribe Eventgroup entry and a Subscribe Eventgroup entry in the same SOME/IP-SD message the Subscribe Eventgroup entry would have been sent with.
 >
 >&#8194;&#8195;This behavior exists to cope with short durations of communication loss, so new Initial Events are triggered to lower the effects of the loss of messages.
 
