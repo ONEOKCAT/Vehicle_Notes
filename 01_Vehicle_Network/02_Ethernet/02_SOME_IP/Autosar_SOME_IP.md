@@ -1733,17 +1733,141 @@ After the length field a character sequence with the specified length shall foll
 
 <img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Error_Handling.png width="640px">
 
+>&#8194;&#8195;Check the referenced Options of each received entry:
+>
+>&#8194;&#8194;&#8195;- The referenced options exist.
+>
+>&#8194;&#8194;&#8195;- The entry references all required options (e.g. a provided eventgroup that uses unicast requires a unicast endpoint option in a received Subscribe Eventgroup entry).
+>
+>&#8194;&#8194;&#8195;- The entry only references supported options (e.g. a required eventgroup that does not support multicast data reception does not support multicast endpoint options in a Subscribe Eventgroup ACK entry).
+>
+>&#8194;&#8194;&#8195;- There are no conflicts between the options referenced by an entry (i.e. two options of same type with contradicting content).
+>
+>&#8194;&#8194;&#8195;- The Type of the referenced Option is known or the discardable flag is set to 1.
+>
+>&#8194;&#8194;&#8195;- The Type of the referenced Option is allowed for the entry or discardable flag is set to 1.
+>
+>&#8194;&#8194;&#8195;- The Length of the referenced Option is consistent to the Type of the Option.
+>
+>&#8194;&#8194;&#8195;- An Endpoint Option has a valid L4-Protocol field.
+>
+>&#8194;&#8194;&#8195;- The Option is valid (e.g. a multicast endpoint option shall use a multicast IP address).
+
+>&#8194;&#8195;If an entry references an option that is known by the Service Discovery implementation but not required by the service (e.g. an Offer references a TCP and UDP option and the client uses only UDP, or a Subscribe Eventgroup entry references a UDP endpoint option but the server uses only multicast event transmission), the entry shall be processed.
+>
+>&#8194;&#8195;Check if the TCP connection is already present (only applicable, if TCP is configured for Eventgroup and Subscribe Eventgroup entry was received).
+>
+>&#8194;&#8195;Check if enough resources are left (e.g. Socket Connections).
+>
+>&#8194;&#8195;If the checks in "Check the referenced Options of each received entry" fail for a received Find entry, the entry shall be ignored, except when Endpoint or Multicast Options are referenced, in which case only the Options shall be ignored.
+>
+>&#8194;&#8195;If the checks in "Check the referenced Options of each received entry" fail for a received Offer entry, the entry shall be ignored.
+>
+>&#8194;&#8195;If the checks in "Check the referenced Options of each received entry" or "Check if the TCP connection" fail for a received Subscribe Eventgroup ACK entry, the entry shall be processed, but the subscription shall not be considered as successful.
+
+>&#8194;&#8195;Options that are referenced by an entry shall be ignored if:
+>
+>&#8194;&#8194;&#8195;- The Option Type is not known (i.e. not yet specified, or not supported by the receiver) and the discardable flag is set to 1.
+>
+>&#8194;&#8194;&#8195;- The option is redundant (i.e. another option of the same type and same content is referenced by this entry).
+>
+>&#8194;&#8194;&#8195;- The option is not required (e.g. a provided eventgroup that uses only multicast does not require a unicast endpoint option in a received Subscribe Eventgroup entry, though it is still allowed).
+>
+>&#8194;&#8195;If the two Configuration Options have conflicting items (same name), all items shall be handled. There shall be no attempt been made to merge duplicate items.
+>
+>&#8194;&#8195;Check for a provided service instance which requires a secure connection if on reception of a subscribe the security association for the corresponding connection is already established.
+
 ### 3.2.10 &#8194;Non-SOME/IP protocols with SOME/IP-SD
 
+>&#8194;&#8195;Besides SOME/IP other communication protocols are used within the vehicle; e.g. for Network Management, Diagnosis, or Flash Updates. Such communication protocols might need to communicate a service instance or have eventgroups as well.
+>
+>&#8194;&#8195;For Non-SOME/IP protocols (**the application protocol itself doesn't use SOME/IP but it is published over SOME/IP SD**) a special Service-ID shall be used and further information shall be added using the configuration option:
+>
+>&#8194;&#8194;&#8195;- Service-ID shall be set to 0xFFFE (reserved).
+>
+>&#8194;&#8194;&#8195;- Instance-ID shall be used as described for SOME/IP services and eventgroups.
+>
+>&#8194;&#8194;&#8195;- The Configuration Option shall be added and shall contain exactly one entry with key "otherserv" and a configurable non-empty value that is determined by the system department. (Example for valid otherserv-string: "otherserv=internaldiag".)
 
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Example_PDU_Non_SOMEIP_SD.png width="720px">
 
 ### 3.2.11 &#8194;Publish/Subscribe with SOME/IP and SOME/IP-SD
 
+>&#8194;&#8195;In contrast to the SOME/IP request/response mechanism there may be cases in which a client requires a set of parameters from a server, but does not want to request that information each time it is required. These are called notifications and concern events and fields.（Client 需要来自 Server 一组参数，但不希望每次需要时都进行请求）
+>
+>&#8194;&#8195;All clients needing events and/or notification events shall register using the SOME/IP-SD at run-time with a server.
 
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Notification_Interaction.png width="640px">
+
+>&#8194;&#8195;With the SOME/IP-SD entry Offer Service the server offers to push notifications to clients; thus, it shall be used as trigger for Subscriptions.
+>
+>&#8194;&#8195;Each client shall respond to a SOME/IP-SD Offer Service entry from the server with a SOME/IP-SD Subscribe Eventgroup entry as long as the client is still interested in receiving the notifications/events of this eventgroup.
+>
+>&#8194;&#8195;If the client is able to reliably detect the reboot of the server using the SOME/IP-SD messages reboot flag, the client may choose to only answer Offer Service messages after the server reboots if configured to do so (TTL set to maximum value). The client make sure that this works reliable even when the SOME/IP-SD messages of the server are lost.
+>
+>&#8194;&#8195;If the client sends out additional Subscribe Eventgroup entries and the TTL of the previous Subscribe has not expired, then the client shall not request Initial Events.
+>
+>&#8194;&#8195;If the client subscribes to two or more eventgroups including one or more identical events or fields, the server shall not send duplicated events or notification events for the field. This does mean regular events and not initial events.
+
+>&#8194;&#8195;It is not allowed to request initial values of events upon subscriptions (pure event and not field).（只有 Filed 类型的 Notifier 才会返回初始事件，涉及到初始值的概念，比如空调事件；Event 类型则是没有此概念的）
+>
+>&#8194;&#8195;Reasons for the client to explicitly request Initial Events include but are not limited to:
+>
+>&#8194;&#8194;&#8195;- The client is currently not subscribed to the Eventgroup.
+>
+>&#8194;&#8194;&#8195;- The client has seen a link-down/link-up after the last Subscribe Eventgroup entry.
+>
+>&#8194;&#8194;&#8195;- The client has not received a Subscribe Eventgroup Ack after the last regular Subscribe Eventgroup.
+>
+>&#8194;&#8194;&#8195;- The client has detected a Reboot of the Server of this Services.
+
+>&#8194;&#8195;The SOME/IP-SD on the server shall delete the subscription, if a relevant SOME/IP error occurs after sending an event or notification event.
+>
+>&#8194;&#8195;The error includes but is not limited to not being able to reach the communication partner and errors of the TCP connection.
+
+>&#8194;&#8195;The client shall wait for the Subscribe Eventgroup Ack entry acknowledging a Subscribe Eventgroup entry. If this Subscribe Eventgroup Ack entry does not arrive before the next Subscribe Eventgroup entry is sent, the client shall do the following:
+>
+>&#8194;&#8194;&#8195;Send a Stop Subscribe Eventgroup entry and a Subscribe Eventgroup entry in the same SOME/IP-SD message the Subscribe Eventgroup entry would have been sent with.
+>
+>&#8194;&#8195;This behavior exists to cope with short durations of communication loss, so new Initial Events are triggered to lower the effects of the loss of messages.
+
+>&#8194;&#8195;If a client sends a Subscribe Eventgroup entry as a reaction to a unicast offer, and a multicast offer arrives immediately after that but before the the Subscribe Eventgroup Ack entry could be sent by the server and received, the client shall not complain (i.e. Stop Subscribe/Subscribe) about a not yet received acknowledgement.
+>
+>&#8194;&#8195;This behavior exists to cope with short durations of communication loss. The receiver of a Stop Subscribe Eventgroup and Subscribe Eventgroup combination would sent out Initial Events to lower the effects of the loss of messages.
+>
+>&#8194;&#8195;If the initial value is of concern - i.e. for fields - the server shall send the first notifications/events (i.e. initial events) immediately after sending the Subscribe Eventgroup Ack.
+>
+>&#8194;&#8195;It is not allowed to send initial values of events upon subscriptions (pure event and not field).
+>
+>&#8194;&#8195;If a subscription was already valid and is updated by a Subscribe Eventgroup entry, no initial events shall be sent.
+>
+>&#8194;&#8195;Receiving Stop Subscribe / Subscribe combinations trigger initial events of field notifiers.
+
+&#8194;&#8195;**Publish/Subscribe with link loss at client**
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Publish_Subscribe_LinkLoss_Client.png width="720px">
+
+&#8194;&#8195;**Publish/Subscribe Registration/Deregistration behavior**
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Publish_Subscribe_Registration_Deregistration_Behavior.png width="720px">
+
+&#8194;&#8195;**Publish/Subscribe with link loss at server**
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Publish_Subscribe_LinkLoss_Server.png width="720px">
 
 ### 3.2.12 &#8194;Reserved and special identifiers for SOME/IP and SOME/IP-SD
 
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Reserved_and_Special_Service-IDs.png width="640px">
 
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Reserved_and_Special_Instance-IDs.png width="640px">
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Reserved_and_Special_Method-IDs.png width="640px">
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Reserved_Eventgroup-ID.png width="640px">
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Method-IDs_of_Service_0xFFFF.png width="640px">
+
+<img src=https://github.com/ONEOKCAT/Vehicle_Notes/blob/main/INSET/SOMIP_SD-Reserved_Names.png width="640px">
 
 # 4 &#8194;SOME/IP TP Protocol Specification
 
