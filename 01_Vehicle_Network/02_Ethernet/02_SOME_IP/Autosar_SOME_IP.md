@@ -800,7 +800,7 @@
 >
 >&#8194;&#8194;&#8195;- **Return Code [8 bit]: 0x00 (E_OK)**
 >
->&#8194;&#8194;&#8195;- Flags [8 bit] (**SOME/IP-SD Header Start**s)
+>&#8194;&#8194;&#8195;- Flags [8 bit] (**SOME/IP-SD Header Starts**)
 >
 >&#8194;&#8194;&#8195;- Reserved [24 bit]
 >
